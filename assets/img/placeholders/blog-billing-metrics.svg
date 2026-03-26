@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title">
+  <title id="title">Billing Metrics Placeholder</title>
+  <rect width="480" height="220" fill="#eff6ff"/>
+  <rect x="38" y="32" width="404" height="154" rx="22" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="80" y="120" width="34" height="36" rx="10" fill="#93c5fd"/>
+  <rect x="132" y="96" width="34" height="60" rx="10" fill="#60a5fa"/>
+  <rect x="184" y="74" width="34" height="82" rx="10" fill="#3b82f6"/>
+  <rect x="236" y="58" width="34" height="98" rx="10" fill="#2563eb"/>
+  <rect x="300" y="72" width="100" height="18" rx="9" fill="#e5e7eb"/>
+  <rect x="300" y="104" width="86" height="14" rx="7" fill="#bfdbfe"/>
+  <rect x="300" y="132" width="72" height="14" rx="7" fill="#93c5fd"/>
+  <text x="240" y="204" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Billing Metrics</text>
+</svg>

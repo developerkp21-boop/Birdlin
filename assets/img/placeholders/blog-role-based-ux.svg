@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title">
+  <title id="title">Role Based SaaS UX Placeholder</title>
+  <rect width="480" height="220" fill="#f5f3ff"/>
+  <rect x="34" y="36" width="126" height="142" rx="20" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="177" y="36" width="126" height="142" rx="20" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="320" y="36" width="126" height="142" rx="20" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="62" y="64" width="70" height="56" rx="14" fill="#4f46e5"/>
+  <rect x="205" y="64" width="70" height="56" rx="14" fill="#7c3aed"/>
+  <rect x="348" y="64" width="70" height="56" rx="14" fill="#2563eb"/>
+  <text x="240" y="204" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Role-based SaaS UX</text>
+</svg>

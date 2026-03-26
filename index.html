@@ -1,44 +1,1740 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Birdlin — SaaS Answering Service</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="assets/css/birdlin.css"/>
-<style>
-body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:var(--page);padding:40px 20px;text-align:center}
-.hero{max-width:480px}
-.logo-big{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px}
-.lm-big{width:44px;height:44px;background:linear-gradient(135deg,var(--ind),var(--pur));border-radius:12px;display:flex;align-items:center;justify-content:center}
-.lm-big svg{width:24px;height:24px;fill:#fff}
-.ln-big{font-size:26px;font-weight:800;color:var(--ind)}
-h1{font-size:30px;font-weight:800;color:var(--g900);letter-spacing:-.5px;margin-bottom:10px}
-p{font-size:15px;color:var(--g500);line-height:1.65;margin-bottom:32px}
-.links{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%}
-.entry{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 12px;border:1.5px solid var(--g200);border-radius:10px;text-decoration:none;background:#fff;transition:all .15s}
-.entry:hover{border-color:var(--ind-m);background:var(--ind-l);transform:translateY(-2px)}
-.entry-ic{font-size:24px}
-.entry-name{font-size:13px;font-weight:700;color:var(--g700)}
-.entry-sub{font-size:11px;color:var(--g400)}
-.login-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ind);color:#fff;border:none;border-radius:9px;padding:12px 28px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:24px;transition:.15s}
-.login-btn:hover{background:#4338CA}
-</style>
-</head>
-<body>
-<div class="hero">
-  <div class="logo-big">
-    <div class="lm-big"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
-    <span class="ln-big">Birdlin</span>
-  </div>
-  <h1>Your always-on receptionist.</h1>
-  <p>Handle inbound calls, capture leads, and book appointments — 24/7, across all your clients.</p>
-  <a class="login-btn" href="login.html">Sign In to Birdlin →</a>
-  <div class="links">
-    <a class="entry" href="agent_dashboard.html"><div class="entry-ic">🎧</div><div class="entry-name">Agent</div><div class="entry-sub">Answer calls</div></a>
-    <a class="entry" href="client_dashboard.html"><div class="entry-ic">🏢</div><div class="entry-name">Client</div><div class="entry-sub">View portal</div></a>
-    <a class="entry" href="admin_dashboard.html"><div class="entry-ic">⚙️</div><div class="entry-name">Admin</div><div class="entry-sub">Manage platform</div></a>
-  </div>
-</div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birdlin - Marketing Landing</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/birdlin.css" />
+    <style>
+      :root {
+        --mk-bg: var(--page);
+        --mk-surface: #ffffff;
+        --mk-line: var(--g200);
+        --mk-ink: var(--g900);
+        --mk-muted: var(--g500);
+        --mk-brand: var(--ind);
+        --mk-brand-soft: var(--ind-l);
+        --mk-brand-dark: var(--ind);
+        --mk-alt: #f5f3ff;
+        --mk-alt-2: #eef2ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scrollbar-color: var(--ind) var(--ind-l);
+        scrollbar-width: thin;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        color: var(--mk-ink);
+        background: var(--mk-bg);
+      }
+      body::-webkit-scrollbar {
+        width: 12px;
+      }
+      body::-webkit-scrollbar-track {
+        background: linear-gradient(180deg, var(--ind-l), #ffffff);
+      }
+      body::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--ind), var(--pur));
+        border-radius: 999px;
+        border: 3px solid #ffffff;
+      }
+      body::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #4338ca, #6d28d9);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .wrap {
+        width: min(1160px, calc(100% - 34px));
+        margin: 0 auto;
+      }
+      .mk-nav {
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--mk-line);
+      }
+      .mk-nav-in {
+        min-height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--mk-brand-dark);
+      }
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--ind), var(--pur));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .brand-mark svg {
+        width: 17px;
+        height: 17px;
+        fill: #fff;
+      }
+      .mk-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 13px;
+        color: var(--mk-muted);
+        font-weight: 600;
+      }
+      .mk-links a:hover {
+        color: var(--mk-brand);
+      }
+      .mk-nav-cta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        border: 1px solid transparent;
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 10px 14px;
+        transition: 0.15s;
+      }
+      .btn.ghost {
+        background: #fff;
+        border-color: var(--mk-line);
+        color: var(--mk-brand-dark);
+      }
+      .btn.ghost:hover {
+        border-color: #c8d6d8;
+        background: #f9fbfb;
+      }
+      .btn.primary {
+        background: linear-gradient(135deg, var(--ind), var(--pur));
+        color: #fff;
+      }
+      .btn.primary:hover {
+        opacity: 0.94;
+      }
+      .hero {
+        padding: 44px 0 26px;
+      }
+      .hero-box {
+        background: #fff;
+        border: 1px solid var(--mk-line);
+        border-radius: 18px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        overflow: hidden;
+      }
+      .hero-copy {
+        padding: 40px 34px;
+      }
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border-radius: 999px;
+        border: 1px solid #c7dcda;
+        background: var(--mk-brand-soft);
+        color: var(--mk-brand-dark);
+        font-size: 11px;
+        font-weight: 700;
+        padding: 6px 10px;
+      }
+      .hero h1 {
+        margin: 14px 0 0;
+        font-size: clamp(34px, 5vw, 50px);
+        line-height: 1.06;
+        letter-spacing: -1px;
+      }
+      .hero p {
+        margin: 13px 0 0;
+        max-width: 560px;
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--mk-muted);
+      }
+      .hero-cta {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+      .hero-metrics {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .metric {
+        min-width: 130px;
+        background: #f8fbfb;
+        border: 1px solid var(--mk-line);
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .metric b {
+        display: block;
+        font-size: 20px;
+      }
+      .metric span {
+        font-size: 11px;
+        color: var(--mk-muted);
+      }
+      .hero-visual {
+        border-left: 1px solid var(--mk-line);
+        background:
+          linear-gradient(
+            145deg,
+            rgba(79, 70, 229, 0.24),
+            rgba(124, 58, 237, 0.12)
+          ),
+          radial-gradient(
+            600px 220px at 80% -10%,
+            rgba(79, 70, 229, 0.18),
+            transparent 62%
+          ),
+          url("assets/img/placeholders/img1.jpg"),
+          linear-gradient(165deg, #f5f6ff, #fafaff);
+        background-size: auto, auto, cover, auto;
+        background-position: center, center, center, center;
+        background-repeat: no-repeat;
+        padding: 20px;
+        display: grid;
+        align-content: end;
+        gap: 10px;
+        position: relative;
+      }
+      .device {
+        background: rgba(255, 255, 255, 0.34);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 12px;
+        padding: 12px;
+        box-shadow: 0 14px 32px rgba(79, 70, 229, 0.12);
+        backdrop-filter: blur(14px) saturate(135%);
+        -webkit-backdrop-filter: blur(14px) saturate(135%);
+      }
+      .device h4 {
+        margin: 0;
+        font-size: 13px;
+        color: var(--g900);
+      }
+      .device p {
+        margin: 4px 0 0;
+        color: var(--g700);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .pill {
+        margin-top: 7px;
+        display: inline-flex;
+        border-radius: 999px;
+        padding: 3px 8px;
+        font-size: 10px;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--ind);
+        border: 1px solid rgba(255, 255, 255, 0.72);
+      }
+      .trust {
+        margin-top: 16px;
+        border: 1px solid var(--mk-line);
+        border-radius: 14px;
+        background: #fff;
+        padding: 13px 16px;
+        text-align: center;
+      }
+      .trust h3 {
+        margin: 0;
+        font-size: 13px;
+        color: var(--mk-muted);
+        font-weight: 700;
+      }
+      .logo-row {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+      }
+      .logo-cell {
+        border: 1px dashed var(--g300);
+        border-radius: 8px;
+        background: #fbfdfd;
+        padding: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--g500);
+      }
+      .section {
+        padding: 42px 0 8px;
+        scroll-margin-top: 88px;
+      }
+      .section-head {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+      .section-head h2 {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 38px);
+        letter-spacing: -0.7px;
+      }
+      .section-head p {
+        margin: 8px auto 0;
+        max-width: 620px;
+        color: var(--mk-muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .service {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        padding: 16px;
+        background: #fff;
+      }
+      .service:nth-child(1) {
+        background: #edf6f8;
+      }
+      .service:nth-child(2) {
+        background: #eef2ff;
+      }
+      .service:nth-child(3) {
+        background: #f5f3ff;
+      }
+      .service:nth-child(4) {
+        background: #eef2ff;
+      }
+      .service:nth-child(5) {
+        background: #f5f3ff;
+      }
+      .service:nth-child(6) {
+        background: #eef2ff;
+      }
+      .service-ic {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #c7d7da;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.86);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      .service h3 {
+        margin: 10px 0 0;
+        font-size: 15px;
+      }
+      .service p {
+        margin: 8px 0 0;
+        font-size: 12px;
+        color: var(--mk-muted);
+        line-height: 1.7;
+      }
+      .info-wrap {
+        margin-top: 20px;
+        border: 1px solid var(--mk-line);
+        border-radius: 14px;
+        background: #fff;
+        padding: 16px;
+      }
+      .info-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .info-head h3 {
+        margin: 0;
+        font-size: 33px;
+        line-height: 1.06;
+      }
+      .info-head p {
+        margin: 8px 0 0;
+        color: var(--mk-muted);
+        font-size: 13px;
+        line-height: 1.7;
+        max-width: 560px;
+      }
+      .info-grid {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 11px;
+      }
+      .chart-box {
+        border: 1px solid var(--mk-line);
+        border-radius: 11px;
+        background: #fbfdfd;
+        padding: 13px;
+      }
+      .chart-box h4 {
+        margin: 0;
+        font-size: 14px;
+      }
+      .chart-box p {
+        margin: 5px 0 0;
+        color: var(--mk-muted);
+        font-size: 12px;
+      }
+      .donut-wrap {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .donut {
+        width: 116px;
+        height: 116px;
+        border-radius: 50%;
+        background: conic-gradient(var(--ind) 0deg, #c7d2fe 0deg, #e5e7eb 0deg);
+        position: relative;
+        transition: background 0.9s ease;
+      }
+      .donut::after {
+        content: "";
+        position: absolute;
+        inset: 15px;
+        background: #fff;
+        border-radius: 50%;
+        border: 1px solid var(--mk-line);
+      }
+      .donut-center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--mk-brand-dark);
+      }
+      .legend {
+        display: grid;
+        gap: 7px;
+      }
+      .legend div {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        color: var(--mk-muted);
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+      }
+      .bars {
+        margin-top: 11px;
+        display: grid;
+        gap: 9px;
+      }
+      .bar-row {
+        display: grid;
+        gap: 4px;
+      }
+      .bar-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--mk-muted);
+      }
+      .bar-track {
+        height: 8px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+      }
+      .bar-fill {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--ind), var(--pur));
+        transition: width 1s ease;
+      }
+      .bar-fill.alt {
+        background: linear-gradient(90deg, #7c3aed, #4f46e5);
+      }
+      .bar-fill.blue {
+        background: linear-gradient(90deg, #2563eb, #4f46e5);
+      }
+      .timeline {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .tl {
+        border: 1px solid var(--mk-line);
+        border-radius: 10px;
+        background: #fff;
+        padding: 9px;
+      }
+      .tl b {
+        display: block;
+        font-size: 12px;
+      }
+      .tl span {
+        display: block;
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--mk-muted);
+      }
+      .dual {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 12px;
+      }
+      .panel {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 17px;
+      }
+      .panel h3 {
+        margin: 0;
+        font-size: 30px;
+        line-height: 1.1;
+        letter-spacing: -0.5px;
+      }
+      .panel p {
+        margin: 9px 0 0;
+        color: var(--mk-muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .feature-list {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .feat {
+        border: 1px solid var(--mk-line);
+        border-radius: 10px;
+        background: #fbfdfd;
+        padding: 10px;
+      }
+      .feat h4 {
+        margin: 0;
+        font-size: 13px;
+      }
+      .feat p {
+        margin: 5px 0 0;
+        font-size: 11px;
+        color: var(--mk-muted);
+        line-height: 1.6;
+      }
+      .process {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 12px;
+      }
+      .image-box {
+        min-height: 236px;
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #eef2ff;
+        position: relative;
+        overflow: hidden;
+      }
+      .image-box img,
+      .expert-photo img,
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .image-box::after {
+        content: "Team Collaboration";
+        position: absolute;
+        left: 14px;
+        bottom: 12px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--mk-brand-dark);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--g200);
+        border-radius: 999px;
+        padding: 6px 10px;
+      }
+      .steps {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 16px;
+      }
+      .steps h3 {
+        margin: 0;
+        font-size: 33px;
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+      }
+      .step-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      .step {
+        display: flex;
+        gap: 9px;
+      }
+      .num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--ind);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .step div b {
+        display: block;
+        font-size: 13px;
+      }
+      .step div span {
+        display: block;
+        margin-top: 3px;
+        color: var(--mk-muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .stats {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .stats-left {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 16px;
+      }
+      .stats-left h3 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.08;
+      }
+      .stats-left p {
+        margin: 10px 0 0;
+        color: var(--mk-muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .stat-card {
+        border: 1px solid var(--mk-line);
+        border-radius: 11px;
+        background: #fff;
+        padding: 14px;
+      }
+      .stat-card:nth-child(1) {
+        background: #dff0f8;
+      }
+      .stat-card:nth-child(2) {
+        background: #f5f3ff;
+      }
+      .stat-card:nth-child(3) {
+        background: #eef2ff;
+      }
+      .stat-card:nth-child(4) {
+        background: #f5f3ff;
+      }
+      .stat-card b {
+        display: block;
+        font-size: 36px;
+        line-height: 1;
+      }
+      .stat-card span {
+        margin-top: 5px;
+        display: block;
+        font-size: 12px;
+        color: #5b6f74;
+      }
+      .pricing {
+        margin-top: 24px;
+        border: 1px solid var(--mk-line);
+        border-radius: 14px;
+        background: #fff;
+        padding: 18px;
+      }
+      .price-head {
+        text-align: center;
+      }
+      .price-head h2 {
+        margin: 0;
+        font-size: 37px;
+        letter-spacing: -0.5px;
+      }
+      .price-head p {
+        margin: 8px 0 0;
+        color: var(--mk-muted);
+        font-size: 13px;
+      }
+      .price-grid {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .price-card {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 13px;
+      }
+      .price-card.mid {
+        border-color: #b9cfcd;
+        box-shadow: 0 10px 24px rgba(14, 62, 57, 0.1);
+      }
+      .price-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .price {
+        margin-top: 7px;
+        font-size: 27px;
+        font-weight: 800;
+      }
+      .price small {
+        font-size: 12px;
+        color: var(--mk-muted);
+        font-weight: 600;
+      }
+      .price-list {
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 6px;
+      }
+      .price-list li {
+        font-size: 12px;
+        color: var(--mk-muted);
+      }
+      .testimonials {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 12px;
+      }
+      .quote-side {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 16px;
+      }
+      .quote-side h3 {
+        margin: 0;
+        font-size: 33px;
+        line-height: 1.08;
+      }
+      .quote-side p {
+        margin: 10px 0 0;
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--mk-muted);
+      }
+      .quote-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .quote {
+        border: 1px solid var(--mk-line);
+        border-radius: 11px;
+        background: #fff;
+        padding: 12px;
+      }
+      .quote:nth-child(3) {
+        background: #f5f3ff;
+      }
+      .quote b {
+        font-size: 13px;
+      }
+      .quote p {
+        margin: 7px 0 0;
+        font-size: 12px;
+        line-height: 1.7;
+        color: var(--mk-muted);
+      }
+      .expert {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: 12px;
+      }
+      .expert-photo {
+        min-height: 230px;
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #f5f3ff;
+        overflow: hidden;
+      }
+      .expert-copy {
+        border: 1px solid var(--mk-line);
+        border-radius: 12px;
+        background: #fff;
+        padding: 16px;
+      }
+      .expert-copy h3 {
+        margin: 0;
+        font-size: 36px;
+        line-height: 1.06;
+      }
+      .expert-copy p {
+        margin: 10px 0 0;
+        color: var(--mk-muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .blog {
+        margin-top: 22px;
+      }
+      .blog-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .blog-head h3 {
+        margin: 0;
+        font-size: 36px;
+        line-height: 1.05;
+      }
+      .blog-head a {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--mk-brand);
+      }
+      .blog-grid {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .post {
+        border: 1px solid var(--mk-line);
+        border-radius: 11px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .thumb {
+        height: 190px;
+        background: #eef2ff;
+        overflow: hidden;
+      }
+      .post-copy {
+        padding: 10px;
+      }
+      .post-copy h4 {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+      .post-copy p {
+        margin: 6px 0 0;
+        color: var(--mk-muted);
+        font-size: 11px;
+        line-height: 1.6;
+      }
+      .news {
+        margin-top: 22px;
+        border: 1px solid var(--mk-line);
+        border-radius: 14px;
+        background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: center;
+      }
+      .news h3 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.06;
+      }
+      .news p {
+        margin: 9px 0 0;
+        font-size: 13px;
+        color: #4b6568;
+      }
+      .news-form {
+        display: flex;
+        gap: 8px;
+      }
+      .news-form input {
+        flex: 1;
+        border: 1px solid #b9d1ce;
+        border-radius: 9px;
+        padding: 11px 12px;
+        font-family: var(--font);
+        font-size: 13px;
+        outline: none;
+      }
+      .news-form input:focus {
+        border-color: var(--ind-m);
+      }
+      .mk-footer {
+        margin-top: 28px;
+        border-top: 1px solid var(--mk-line);
+        background: #fff;
+      }
+      .mk-foot-in {
+        padding: 18px 0 22px;
+      }
+      .foot-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr 1fr;
+        gap: 14px;
+      }
+      .foot-title {
+        margin: 0 0 8px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .foot-link {
+        display: block;
+        margin: 7px 0;
+        font-size: 12px;
+        color: #5f7073;
+      }
+      .foot-link:hover {
+        color: var(--mk-brand);
+      }
+      .legal {
+        margin-top: 14px;
+        border-top: 1px solid var(--mk-line);
+        padding-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 11px;
+        color: #7a8f92;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        z-index: 120;
+        background: linear-gradient(90deg, var(--ind), var(--pur));
+        transition: width 0.15s linear;
+      }
+      @media (max-width: 1000px) {
+        .mk-links {
+          display: none;
+        }
+        .hero-box,
+        .dual,
+        .process,
+        .stats,
+        .testimonials,
+        .expert,
+        .news {
+          grid-template-columns: 1fr;
+        }
+        .hero-visual {
+          border-left: none;
+          border-top: 1px solid var(--mk-line);
+        }
+        .card-grid,
+        .price-grid,
+        .blog-grid,
+        .info-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .logo-row,
+        .quote-grid,
+        .foot-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .card-grid,
+        .price-grid,
+        .blog-grid,
+        .feature-list,
+        .stat-grid,
+        .info-grid,
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+        .hero-copy,
+        .panel,
+        .steps,
+        .stats-left,
+        .quote-side,
+        .expert-copy,
+        .pricing,
+        .news {
+          padding: 14px;
+        }
+        .news-form {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <nav class="mk-nav">
+      <div class="wrap mk-nav-in">
+        <a class="brand" href="index.html">
+          <span class="brand-mark"
+            ><svg viewBox="0 0 16 16">
+              <path
+                d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"
+              />
+              <circle cx="5.5" cy="12.5" r="1.2" />
+              <circle cx="10.5" cy="12.5" r="1.2" /></svg
+          ></span>
+          Birdlin
+        </a>
+        <div class="mk-links">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="mk-nav-cta">
+          <a class="btn ghost" href="login.html">Sign In</a>
+          <a class="btn primary" href="login.html">Start Free Trial</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="wrap" id="home">
+      <section class="hero">
+        <div class="hero-box">
+          <div class="hero-copy">
+            <span class="kicker">Inbound calls + leads + bookings</span>
+            <h1>Birdlin dashboard helps your team convert calls faster.</h1>
+            <p>
+              Manage agent operations, client visibility, and admin controls
+              from one workflow built for answering services and multi-business
+              call management.
+            </p>
+            <div class="hero-cta">
+              <a class="btn primary" href="login.html">Get Started</a>
+              <a class="btn ghost" href="agent_dashboard.html"
+                >View Agent Dashboard</a
+              >
+            </div>
+            <div class="hero-metrics">
+              <div class="metric">
+                <b data-counter="94" data-suffix="%">94%</b
+                ><span>Calls answered</span>
+              </div>
+              <div class="metric">
+                <b data-counter="66" data-suffix="%">66%</b
+                ><span>Booking conversion</span>
+              </div>
+              <div class="metric">
+                <b>32/100</b><span>Example plan usage</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="device">
+              <h4>Agent Workspace</h4>
+              <p>
+                Incoming call detected, script loaded, lead details captured in
+                real time.
+              </p>
+              <span class="pill">Live session</span>
+            </div>
+            <div class="device">
+              <h4>Client Portal</h4>
+              <p>
+                Bookings, call logs, recordings, and monthly usage are visible
+                in one page.
+              </p>
+              <span class="pill">Auto synced</span>
+            </div>
+            <div class="device">
+              <h4>Admin Control</h4>
+              <p>
+                Track revenue, onboard clients, manage agents, and monitor
+                quality score.
+              </p>
+              <span class="pill">Platform level</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trust">
+          <h3>Trusted by growing service teams and local business operators</h3>
+          <div class="logo-row">
+            <div class="logo-cell">Mike's Plumbing</div>
+            <div class="logo-cell">Smith HVAC</div>
+            <div class="logo-cell">Capitol Roofing</div>
+            <div class="logo-cell">Clean & Shine</div>
+            <div class="logo-cell">Ace Electrical</div>
+            <div class="logo-cell">TruHome Mgmt</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services">
+        <div class="section-head">
+          <h2>Take your call operations to the next level</h2>
+          <p>
+            Landing layout now uses dedicated marketing navigation and section
+            flow, not dashboard navigation.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="service">
+            <div class="service-ic">1</div>
+            <h3>Cross Platform</h3>
+            <p>
+              One workflow for agent, client, and admin interfaces with shared
+              data state.
+            </p>
+          </article>
+          <article class="service">
+            <div class="service-ic">2</div>
+            <h3>Social Media Intake</h3>
+            <p>
+              Capture inquiry source and route leads with context for better
+              responses.
+            </p>
+          </article>
+          <article class="service">
+            <div class="service-ic">3</div>
+            <h3>Brand Identity</h3>
+            <p>
+              Present a consistent communication style during high-volume call
+              sessions.
+            </p>
+          </article>
+          <article class="service">
+            <div class="service-ic">4</div>
+            <h3>Customer Service</h3>
+            <p>
+              Agent scripts and quality notes help teams deliver better caller
+              outcomes.
+            </p>
+          </article>
+          <article class="service">
+            <div class="service-ic">5</div>
+            <h3>Social Advertising</h3>
+            <p>
+              Track campaign outcomes by connecting call source to booking
+              conversion.
+            </p>
+          </article>
+          <article class="service">
+            <div class="service-ic">6</div>
+            <h3>Content Creation</h3>
+            <p>
+              Structured logs create usable insights for follow-up messaging and
+              support.
+            </p>
+          </article>
+        </div>
+
+        <div class="info-wrap">
+          <div class="info-head">
+            <div>
+              <h3>Live Performance Infographic</h3>
+              <p>
+                Visual snapshot for call volume, conversion quality, and
+                pipeline health across agent and client operations.
+              </p>
+            </div>
+          </div>
+          <div class="info-grid">
+            <article class="chart-box">
+              <h4>Conversion Split</h4>
+              <p>How handled calls turn into outcomes this month.</p>
+              <div class="donut-wrap">
+                <div class="donut" id="convDonut" data-value="66">
+                  <div class="donut-center" id="convDonutVal">66%</div>
+                </div>
+                <div class="legend">
+                  <div>
+                    <span class="dot" style="background: var(--mk-brand)"></span
+                    >Booked 66%
+                  </div>
+                  <div>
+                    <span class="dot" style="background: #a5b4fc"></span
+                    >Follow-up 21%
+                  </div>
+                  <div>
+                    <span class="dot" style="background: #d9e7e5"></span
+                    >Unqualified 13%
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="chart-box">
+              <h4>Weekly Throughput</h4>
+              <p>Operational velocity by week.</p>
+              <div class="bars">
+                <div class="bar-row">
+                  <div class="bar-meta">
+                    <span>Week 1</span><span>58 calls</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" data-width="58%"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-meta">
+                    <span>Week 2</span><span>72 calls</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill alt" data-width="72%"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-meta">
+                    <span>Week 3</span><span>84 calls</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" data-width="84%"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-meta">
+                    <span>Week 4</span><span>93 calls</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill blue" data-width="93%"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="timeline">
+            <div class="tl">
+              <b>Intake</b><span>Call tagged and agent matched instantly.</span>
+            </div>
+            <div class="tl">
+              <b>Qualification</b
+              ><span>Lead quality and urgency detected.</span>
+            </div>
+            <div class="tl">
+              <b>Booking</b><span>Appointment created in client timeline.</span>
+            </div>
+            <div class="tl">
+              <b>Reporting</b><span>Usage and performance updated live.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="dual">
+          <div class="panel">
+            <h3>We facilitate strategy and system design</h3>
+            <p>
+              Birdlin brings call workflows, lead capture, appointments, and
+              billing monitoring into a clean operational model for service
+              companies.
+            </p>
+            <div class="feature-list">
+              <div class="feat">
+                <h4>Smart Installation Tools</h4>
+                <p>
+                  Launch role-based flows quickly and keep operations organized.
+                </p>
+              </div>
+              <div class="feat">
+                <h4>Employee Assessments</h4>
+                <p>
+                  Review quality and productivity through dashboard indicators.
+                </p>
+              </div>
+              <div class="feat">
+                <h4>Collaborative Core</h4>
+                <p>Client and agent information stays synchronized.</p>
+              </div>
+              <div class="feat">
+                <h4>Unlimited Ways To Work</h4>
+                <p>Use modular sections as your SaaS setup evolves.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 style="font-size: 26px">Dashboard Access</h3>
+            <p>
+              Jump directly into each workspace while keeping this landing style
+              separate from dashboard UI.
+            </p>
+            <div style="display: grid; gap: 8px; margin-top: 12px">
+              <a
+                class="btn ghost"
+                style="justify-content: flex-start"
+                href="agent_dashboard.html"
+                >Open Agent Dashboard</a
+              >
+              <a
+                class="btn ghost"
+                style="justify-content: flex-start"
+                href="client_dashboard.html"
+                >Open Client Portal</a
+              >
+              <a
+                class="btn ghost"
+                style="justify-content: flex-start"
+                href="admin_dashboard.html"
+                >Open Admin Panel</a
+              >
+              <a
+                class="btn primary"
+                style="justify-content: flex-start"
+                href="login.html"
+                >Go To Sign In</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="process">
+          <div class="image-box">
+            <img
+              src="assets/img/placeholders/colaboration.jpg"
+              alt="Team collaboration placeholder image"
+            />
+          </div>
+          <div class="steps">
+            <h3>Bring target users together with one social-call workflow</h3>
+            <div class="step-list">
+              <div class="step">
+                <span class="num">1</span>
+                <div>
+                  <b>Discover needs</b
+                  ><span
+                    >Understand call patterns and identify client service
+                    priorities.</span
+                  >
+                </div>
+              </div>
+              <div class="step">
+                <span class="num">2</span>
+                <div>
+                  <b>Build your strategy</b
+                  ><span
+                    >Define scripts, outcomes, and routing logic for every team
+                    role.</span
+                  >
+                </div>
+              </div>
+              <div class="step">
+                <span class="num">3</span>
+                <div>
+                  <b>Activate and scale</b
+                  ><span
+                    >Use reporting insights to improve booking conversion and
+                    service quality.</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stats-left">
+            <h3>See why teams trust Birdlin worldwide</h3>
+            <p>
+              A professional call workflow improves responsiveness, data
+              quality, and revenue consistency across clients.
+            </p>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <b data-counter="465" data-suffix="k">465k</b
+              ><span>Social followers reached</span>
+            </div>
+            <div class="stat-card">
+              <b data-counter="5000" data-suffix="+">5000+</b
+              ><span>Managed calls in sample set</span>
+            </div>
+            <div class="stat-card">
+              <b data-counter="756" data-suffix="+">756+</b
+              ><span>Qualified leads</span>
+            </div>
+            <div class="stat-card">
+              <b data-counter="100" data-suffix="%">100%</b
+              ><span>Role-based visibility</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="pricing">
+          <div class="price-head">
+            <h2>Choose The Best Plan</h2>
+            <p>Transparent monthly pricing with role-ready workflow access.</p>
+          </div>
+          <div class="price-grid">
+            <article class="price-card">
+              <h3>Trial Plan</h3>
+              <div class="price">$0 <small>/14 days</small></div>
+              <ul class="price-list">
+                <li>Up to 20 calls</li>
+                <li>1 client workspace</li>
+                <li>Basic lead capture</li>
+                <li>Email support</li>
+              </ul>
+              <a
+                class="btn ghost"
+                style="margin-top: 10px; width: 100%"
+                href="login.html"
+                >Start Trial</a
+              >
+            </article>
+            <article class="price-card mid">
+              <h3>Standard</h3>
+              <div class="price">$299 <small>/month</small></div>
+              <ul class="price-list">
+                <li>40 calls included</li>
+                <li>Agent + client dashboards</li>
+                <li>Booking + usage views</li>
+                <li>Priority support</li>
+              </ul>
+              <a
+                class="btn primary"
+                style="margin-top: 10px; width: 100%"
+                href="login.html"
+                >Get Started</a
+              >
+            </article>
+            <article class="price-card">
+              <h3>Enterprise</h3>
+              <div class="price">$549 <small>/month</small></div>
+              <ul class="price-list">
+                <li>100 calls included</li>
+                <li>All 3 role dashboards</li>
+                <li>Advanced reporting</li>
+                <li>Admin controls</li>
+              </ul>
+              <a
+                class="btn ghost"
+                style="margin-top: 10px; width: 100%"
+                href="login.html"
+                >Request Demo</a
+              >
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="testimonials">
+          <div class="quote-side">
+            <h3>What our customers are saying</h3>
+            <p>
+              Teams using Birdlin report faster response times, fewer missed
+              calls, and more reliable appointment conversion.
+            </p>
+          </div>
+          <div class="quote-grid">
+            <article class="quote">
+              <b>Mike T. - Plumbing Owner</b>
+              <p>
+                Missed calls kam hui aur booked appointments clearly improve
+                hue.
+              </p>
+            </article>
+            <article class="quote">
+              <b>Sara R. - Operations Manager</b>
+              <p>
+                Agent dashboard flow practical hai, notes aur booking same
+                screen par complete hoti hai.
+              </p>
+            </article>
+            <article class="quote">
+              <b>Jay C. - Reception Team Lead</b>
+              <p>
+                Role-based panels ne training time kam kiya aur quality track
+                karna easy hua.
+              </p>
+            </article>
+            <article class="quote">
+              <b>Alyssa P. - Admin</b>
+              <p>
+                Client onboarding aur revenue monitoring ek hi panel me dekhna
+                helpful hai.
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <div class="expert" id="contact">
+          <div class="expert-photo">
+            <img
+              src="assets/img/placeholders/marketing.jpg"
+              alt="Marketing consultation placeholder image"
+            />
+          </div>
+          <div class="expert-copy">
+            <h3>Want to talk to a marketing expert?</h3>
+            <p>
+              Share your current setup and we will help you map the right
+              Birdlin workflow for your call volume and team size.
+            </p>
+            <div
+              style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap"
+            >
+              <a class="btn primary" href="login.html">Book A Call</a>
+              <a class="btn ghost" href="admin_dashboard.html"
+                >View Platform Demo</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="blog" id="blog">
+          <div class="blog-head">
+            <h3>From our blog</h3>
+            <a href="#">View all posts</a>
+          </div>
+          <div class="blog-grid">
+            <article class="post">
+              <div class="thumb">
+                <img
+                  src="assets/img/placeholders/img1.jpg"
+                  alt="Blog placeholder: call script guide"
+                />
+              </div>
+              <div class="post-copy">
+                <h4>How to design a high-conversion call script</h4>
+                <p>Practical script structure for better booking rates.</p>
+              </div>
+            </article>
+            <article class="post">
+              <div class="thumb">
+                <img
+                  src="assets/img/placeholders/img2.jpg"
+                  alt="Blog placeholder: lead quality tracking"
+                />
+              </div>
+              <div class="post-copy">
+                <h4>Tracking lead quality across service teams</h4>
+                <p>Set up lead stages for cleaner follow-up.</p>
+              </div>
+            </article>
+            <article class="post">
+              <div class="thumb">
+                <img
+                  src="assets/img/placeholders/img3.jpg"
+                  alt="Blog placeholder: billing metrics"
+                />
+              </div>
+              <div class="post-copy">
+                <h4>Using usage metrics for smarter billing</h4>
+                <p>Make overage calculations transparent to clients.</p>
+              </div>
+            </article>
+            <article class="post">
+              <div class="thumb">
+                <img
+                  src="assets/img/placeholders/img1.jpg"
+                  alt="Blog placeholder: role-based SaaS UX"
+                />
+              </div>
+              <div class="post-copy">
+                <h4>Role-based SaaS UX for call operations</h4>
+                <p>Why agent, client, and admin interfaces should differ.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="news">
+          <div>
+            <h3>Subscribe our newsletter</h3>
+            <p>
+              Get updates on onboarding workflows, dashboard improvements, and
+              conversion strategy.
+            </p>
+          </div>
+          <form
+            class="news-form"
+            onsubmit="
+              event.preventDefault();
+              this.reset();
+              alert('Subscribed successfully');
+            "
+          >
+            <input type="email" placeholder="Enter your email" required />
+            <button class="btn primary" type="submit">Subscribe</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mk-footer">
+      <div class="wrap mk-foot-in">
+        <div class="foot-grid">
+          <div>
+            <a class="brand" href="index.html" style="font-size: 18px"
+              ><span class="brand-mark" style="width: 30px; height: 30px"
+                ><svg viewBox="0 0 16 16">
+                  <path
+                    d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"
+                  />
+                  <circle cx="5.5" cy="12.5" r="1.2" />
+                  <circle cx="10.5" cy="12.5" r="1.2" /></svg></span
+              >Birdlin</a
+            >
+            <p
+              style="
+                margin: 10px 0 0;
+                color: #5f7073;
+                font-size: 12px;
+                line-height: 1.7;
+              "
+            >
+              Scalable receptionist platform for call handling, lead capture,
+              bookings, and multi-client growth.
+            </p>
+          </div>
+          <div>
+            <h4 class="foot-title">Product</h4>
+            <a class="foot-link" href="agent_dashboard.html">Agent Dashboard</a>
+            <a class="foot-link" href="client_dashboard.html">Client Portal</a>
+            <a class="foot-link" href="admin_dashboard.html">Admin Panel</a>
+          </div>
+          <div>
+            <h4 class="foot-title">Resources</h4>
+            <a class="foot-link" href="#features">Features</a>
+            <a class="foot-link" href="#pricing">Pricing</a>
+            <a class="foot-link" href="#blog">Blog</a>
+          </div>
+          <div>
+            <h4 class="foot-title">Support</h4>
+            <a class="foot-link" href="login.html">Sign In</a>
+            <a class="foot-link" href="#contact">Contact</a>
+            <a class="foot-link" href="#">Help Center</a>
+          </div>
+        </div>
+        <div class="legal">
+          <span>Copyright 2026 Birdlin. All rights reserved.</span>
+          <span>Landing UI separated from dashboard navigation by design.</span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      const progressBar = document.getElementById("scrollProgress");
+      const updateProgress = () => {
+        const win = document.documentElement;
+        const scrolled =
+          (win.scrollTop / (win.scrollHeight - win.clientHeight)) * 100;
+        progressBar.style.width = `${Math.max(0, Math.min(100, scrolled))}%`;
+      };
+      document.addEventListener("scroll", updateProgress, { passive: true });
+      updateProgress();
+
+      const revealTargets = document.querySelectorAll(
+        ".hero-box, .trust, .section-head, .service, .info-wrap, .panel, .process, .stats, .pricing, .testimonials, .expert, .blog, .news, .mk-footer",
+      );
+      revealTargets.forEach((el) => el.classList.add("reveal"));
+
+      const counterEls = document.querySelectorAll("[data-counter]");
+      const animateCounter = (el) => {
+        const target = Number(el.dataset.counter || 0);
+        const suffix = el.dataset.suffix || "";
+        const start = 0;
+        const duration = 1100;
+        const startTime = performance.now();
+        const step = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const value = Math.floor(start + (target - start) * progress);
+          el.textContent = `${value}${suffix}`;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("show");
+            if (entry.target.classList.contains("info-wrap")) {
+              document.querySelectorAll(".bar-fill").forEach((bar) => {
+                bar.style.width = bar.dataset.width || "0";
+              });
+              const donut = document.getElementById("convDonut");
+              const value = Number(donut.dataset.value || 0);
+              donut.style.background = `conic-gradient(var(--ind) ${value * 3.6}deg, #c7d2fe ${value * 3.6}deg 313deg, #e5e7eb 313deg)`;
+            }
+            entry.target.querySelectorAll("[data-counter]").forEach((el) => {
+              if (!el.dataset.done) {
+                el.dataset.done = "1";
+                animateCounter(el);
+              }
+            });
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.18 },
+      );
+      revealTargets.forEach((el) => io.observe(el));
+    </script>
+  </body>
 </html>

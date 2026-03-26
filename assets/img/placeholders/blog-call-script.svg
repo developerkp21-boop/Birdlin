@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title">
+  <title id="title">Call Script Guide Placeholder</title>
+  <rect width="480" height="220" fill="#eef2ff"/>
+  <rect x="40" y="36" width="400" height="148" rx="22" fill="#ffffff" stroke="#d1d5db"/>
+  <rect x="68" y="64" width="108" height="108" rx="18" fill="#4f46e5"/>
+  <rect x="198" y="76" width="188" height="18" rx="9" fill="#e5e7eb"/>
+  <rect x="198" y="108" width="150" height="14" rx="7" fill="#c7d2fe"/>
+  <rect x="198" y="136" width="165" height="14" rx="7" fill="#ddd6fe"/>
+  <text x="240" y="204" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Call Script Guide</text>
+</svg>

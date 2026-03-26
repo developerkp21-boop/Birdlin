@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220" viewBox="0 0 480 220" role="img" aria-labelledby="title">
+  <title id="title">Lead Quality Tracking Placeholder</title>
+  <rect width="480" height="220" fill="#f5f3ff"/>
+  <rect x="42" y="34" width="396" height="150" rx="22" fill="#ffffff" stroke="#d1d5db"/>
+  <circle cx="122" cy="109" r="48" fill="#7c3aed"/>
+  <rect x="196" y="72" width="174" height="18" rx="9" fill="#e5e7eb"/>
+  <rect x="196" y="104" width="154" height="14" rx="7" fill="#ddd6fe"/>
+  <rect x="196" y="132" width="136" height="14" rx="7" fill="#c7d2fe"/>
+  <text x="240" y="204" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827">Lead Quality Tracking</text>
+</svg>
