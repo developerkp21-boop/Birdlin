@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Birdlin — SaaS Answering Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/birdlin.css"/>
+<style>
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:var(--page);padding:40px 20px;text-align:center}
+.hero{max-width:480px}
+.logo-big{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px}
+.lm-big{width:44px;height:44px;background:linear-gradient(135deg,var(--ind),var(--pur));border-radius:12px;display:flex;align-items:center;justify-content:center}
+.lm-big svg{width:24px;height:24px;fill:#fff}
+.ln-big{font-size:26px;font-weight:800;color:var(--ind)}
+h1{font-size:30px;font-weight:800;color:var(--g900);letter-spacing:-.5px;margin-bottom:10px}
+p{font-size:15px;color:var(--g500);line-height:1.65;margin-bottom:32px}
+.links{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%}
+.entry{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 12px;border:1.5px solid var(--g200);border-radius:10px;text-decoration:none;background:#fff;transition:all .15s}
+.entry:hover{border-color:var(--ind-m);background:var(--ind-l);transform:translateY(-2px)}
+.entry-ic{font-size:24px}
+.entry-name{font-size:13px;font-weight:700;color:var(--g700)}
+.entry-sub{font-size:11px;color:var(--g400)}
+.login-btn{display:inline-flex;align-items:center;gap:8px;background:var(--ind);color:#fff;border:none;border-radius:9px;padding:12px 28px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:24px;transition:.15s}
+.login-btn:hover{background:#4338CA}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="logo-big">
+    <div class="lm-big"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
+    <span class="ln-big">Birdlin</span>
+  </div>
+  <h1>Your always-on receptionist.</h1>
+  <p>Handle inbound calls, capture leads, and book appointments — 24/7, across all your clients.</p>
+  <a class="login-btn" href="login.html">Sign In to Birdlin →</a>
+  <div class="links">
+    <a class="entry" href="agent_dashboard.html"><div class="entry-ic">🎧</div><div class="entry-name">Agent</div><div class="entry-sub">Answer calls</div></a>
+    <a class="entry" href="client_dashboard.html"><div class="entry-ic">🏢</div><div class="entry-name">Client</div><div class="entry-sub">View portal</div></a>
+    <a class="entry" href="admin_dashboard.html"><div class="entry-ic">⚙️</div><div class="entry-name">Admin</div><div class="entry-sub">Manage platform</div></a>
+  </div>
+</div>
+</body>
+</html>

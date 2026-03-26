@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Agent Dashboard — Birdlin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/birdlin.css"/>
+<script src="assets/js/birdlin.js"></script>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="logo">
+    <div class="logo-m"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
+    Birdlin
+  </div>
+  <a class="navlink on" href="agent_dashboard.html">Agent</a>
+  <a class="navlink" href="client_dashboard.html">Client</a>
+  <a class="navlink" href="admin_dashboard.html">Admin</a>
+  <div class="nav-right">
+    <button class="bpri" style="background:var(--g100);color:var(--g700);border:1px solid var(--g200)" onclick="showBanner()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>Simulate Call</button>
+    <div class="dd-wrap notif-badge">
+      <div class="nav-icon" onclick="toggleDd('notifDd')" style="font-size:16px">🔔</div>
+      <div class="dd-menu" id="notifDd" style="min-width:300px">
+        <div class="notif-hd"><span>Notifications</span><button onclick="toast('All marked read');">Mark all read</button></div>
+        <div class="notif-item"><div style="display:flex;gap:10px"><div class="notif-dot" style="background:var(--amb-m)"></div><div><div class="notif-title">Incoming call missed</div><div class="notif-sub">Clean &amp; Shine — +1 614-555-????</div><div class="notif-time">2 min ago</div></div></div></div>
+        <div class="notif-item"><div style="display:flex;gap:10px"><div class="notif-dot" style="background:var(--grn-m)"></div><div><div class="notif-title">Booking confirmed</div><div class="notif-sub">James Hartwell → Mike's Plumbing, Mar 28</div><div class="notif-time">14 min ago</div></div></div></div>
+        <div class="notif-item"><div style="display:flex;gap:10px"><div class="notif-dot" style="background:var(--ind)"></div><div><div class="notif-title">New client onboarded</div><div class="notif-sub">Ace Electrical — Starter plan activated</div><div class="notif-time">1 hour ago</div></div></div></div>
+      </div>
+    </div>
+    <div class="dd-wrap">
+      <div class="nav-av" onclick="toggleDd('userDd')">MR</div>
+      <div class="dd-menu" id="userDd">
+        <div class="dd-head"><div class="dd-name">Maria Rodriguez</div><div class="dd-email">maria@birdlin.io · Ext. 104</div></div>
+        <a class="dd-item" href="agent_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Agent Dashboard</a>
+        <a class="dd-item" href="client_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Client Portal</a>
+        <a class="dd-item" href="admin_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/></svg>Admin Panel</a>
+        <div class="dd-sep"></div>
+        <div class="dd-item" onclick="nav('settings',null);closeDds();"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm1 9H7V7h2v4zm0-6H7V4h2v1z"/></svg>Settings</div>
+        <div class="dd-sep"></div>
+        <div class="dd-item danger" onclick="toast('Logged out')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"/></svg>Sign Out</div>
+      </div>
+    </div>
+    <button class="ham" onclick="toggleSidebar()">☰</button>
+  </div>
+</div>
+
+<!-- NEW BOOKING MODAL -->
+<div class="modal-bg" id="bookingModal">
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">📅 New Booking</span><button class="modal-close" onclick="closeModal('bookingModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="fg2">
+        <div><div class="flbl">Customer Name</div><input id="agBookName" class="inp" placeholder="e.g. James Hartwell"/></div>
+        <div><div class="flbl">Phone Number</div><input id="agBookPhone" class="inp" placeholder="+1 (000) 000-0000" style="font-family:var(--mono)"/></div>
+      </div>
+      <div class="fg2">
+        <div><div class="flbl">Client / Business</div><select id="agBookClient" class="inp"><option>Mike's Plumbing Co.</option><option>Smith HVAC</option><option>Capitol Roofing</option><option>Clean &amp; Shine</option></select></div>
+        <div><div class="flbl">Service Type</div><input id="agBookService" class="inp" placeholder="e.g. Drain Repair"/></div>
+      </div>
+      <div class="fg2">
+        <div><div class="flbl">Date</div><input id="agBookDate" class="inp" type="date"/></div>
+        <div><div class="flbl">Time</div><input id="agBookTime" class="inp" type="time" value="09:00"/></div>
+      </div>
+      <div style="margin-bottom:12px"><div class="flbl">Notes</div><textarea id="agBookNotes" class="txta" placeholder="Special instructions or service details…"></textarea></div>
+    </div>
+    <div class="modal-foot"><button class="bout" onclick="closeModal('bookingModal')">Cancel</button><button class="bpri" onclick="createAgentBookingFromModal()">Create Booking</button></div>
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sb" id="sb">
+    <div class="sb-brand">
+      <div class="sb-av" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">MR</div>
+      <div><div class="sb-name">Maria R.</div><div class="sb-role">Receptionist Agent</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ng">Workspace</div>
+      <div class="ni on" onclick="nav('overview',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Overview</div>
+      <div class="ni" onclick="nav('workspace',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="10" rx="2"/><path d="M5 15h6M8 12v3"/></svg>Call Workspace<span class="pill pg" id="wsLive" style="font-size:9px;padding:1px 6px;margin-left:auto;display:none">LIVE</span></div>
+      <div class="ni" onclick="nav('leads',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M9 2H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V5L9 2zm0 0v3h3"/></svg>Leads<span class="nbg" style="margin-left:auto">8</span></div>
+      <div class="ni" onclick="nav('calls',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v1h8V5H4zm0 3v1h8V8H4zm0 3v1h5v-1H4z"/></svg>Call Log<span class="nbadge">3</span></div>
+      <div class="ni" onclick="nav('bookings',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M5 2v2M11 2v2M2 7h12"/></svg>Bookings</div>
+      <div class="ni" onclick="nav('perf',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M2 12l4-4 3 3 5-6"/></svg>Performance</div>
+      <div class="ng">Account</div>
+      <div class="ni" onclick="nav('settings',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm1 9H7V7h2v4zm0-6H7V4h2v1z"/></svg>Settings</div>
+    </div>
+    <div class="sb-foot">
+      <div class="status-wrap">
+        <div class="status-label">My Status</div>
+        <div class="status-pills">
+          <div class="spill active ok" id="sp-ok" onclick="setStatus('ok')">🟢 On</div>
+          <div class="spill busy" id="sp-busy" onclick="setStatus('busy')">🟡 Busy</div>
+          <div class="spill off" id="sp-off" onclick="setStatus('off')">⚫ Off</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="mc">
+    <div class="pagebar">
+      <span class="page-title" id="ptitle">Overview</span>
+      <span class="page-sub" id="psub">Thursday, March 26, 2026</span>
+    </div>
+
+    <div class="page">
+
+      <!-- OVERVIEW -->
+      <div class="sec on" id="sec-overview">
+        <div class="ca" id="callBanner" style="display:none">
+          <div class="cri"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></div>
+          <div class="cai">
+            <div class="cbn">Incoming call — Mike's Plumbing Co.</div>
+            <div class="ccn">+1 (614) 555-0182 · Unknown caller · Plumbing</div>
+            <div class="ctimer" id="callTimer">00:00</div>
+          </div>
+          <div class="cact">
+            <button class="bscr" onclick="openScript()">📄 View Script</button>
+            <button class="bdec" onclick="dismissBanner()">Decline</button>
+            <button class="bans" onclick="answerCall()">Answer Call</button>
+          </div>
+        </div>
+
+        <div class="mg">
+          <div class="mcard mi1"><div class="mic" style="background:#EEF2FF"><svg viewBox="0 0 20 20" fill="#4F46E5"><path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V3z"/></svg></div><div class="ml">Calls Today</div><div class="mv">14</div><div class="mch cup">↑ 3 vs yesterday</div></div>
+          <div class="mcard mi2"><div class="mic" style="background:#DCFCE7"><svg viewBox="0 0 20 20" fill="#16A34A"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div><div class="ml">Bookings</div><div class="mv">9</div><div class="mch cup">64% booking rate</div></div>
+          <div class="mcard mi3"><div class="mic" style="background:#FEF3C7"><svg viewBox="0 0 20 20" fill="#D97706"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg></div><div class="ml">Avg Handle</div><div class="mv">2:34</div><div class="mch cne">On target</div></div>
+          <div class="mcard mi4"><div class="mic" style="background:#ECFEFF"><svg viewBox="0 0 20 20" fill="#0891B2"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div class="ml">Clients on Shift</div><div class="mv">6</div><div class="mch cup">All active</div></div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">Recent Calls</span><span style="font-size:12px;color:var(--ind);font-weight:600;cursor:pointer" onclick="nav('calls',document.querySelector('[onclick*=calls]'))">View all →</span></div>
+            <table class="dt">
+              <thead><tr><th>Caller</th><th>Client</th><th>Time</th><th>Dur.</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0391</div></div></div></td><td>Smith HVAC</td><td style="font-family:var(--mono);font-size:12px">11:42 AM</td><td style="font-family:var(--mono);font-size:12px">3:12</td><td><span class="pill pg">Booked</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0821</div></div></div></td><td>Mike's Plumbing</td><td style="font-family:var(--mono);font-size:12px">11:29 AM</td><td style="font-family:var(--mono);font-size:12px">1:05</td><td><span class="pill pa">Transferred</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">TB</div><div><div style="font-weight:500">Tom Briggs</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0147</div></div></div></td><td>Capitol Roofing</td><td style="font-family:var(--mono);font-size:12px">11:14 AM</td><td style="font-family:var(--mono);font-size:12px">2:47</td><td><span class="pill pb">Message</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#FEF2F2;color:#DC2626">??</div><div><div style="font-weight:500">Unknown</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-????</div></div></div></td><td>Clean &amp; Shine</td><td style="font-family:var(--mono);font-size:12px">10:33 AM</td><td style="font-family:var(--mono);font-size:12px">0:00</td><td><span class="pill pr">Missed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="sp" id="scriptPanel">
+            <div class="sph">
+              <div class="spht">Mike's Plumbing Co.</div>
+              <div class="sphs">Growth Plan · Active script</div>
+              <div class="sptab">
+                <button class="act" onclick="spTab(this,'tp-script')">Script</button>
+                <button onclick="spTab(this,'tp-faq')">FAQs</button>
+                <button onclick="spTab(this,'tp-instr')">Instructions</button>
+              </div>
+            </div>
+            <div id="tp-script">
+              <div class="ss"><div class="sn" style="background:#EEF2FF;color:#4F46E5">1</div><div class="st"><strong>Greet</strong>"Thank you for calling Mike's Plumbing, this is [your name], how can I help?"</div></div>
+              <div class="ss"><div class="sn" style="background:#DCFCE7;color:#16A34A">2</div><div class="st"><strong>Capture Info</strong>Full name · Callback number · Email · Service type</div></div>
+              <div class="ss"><div class="sn" style="background:#FFF7ED;color:#D97706">3</div><div class="st"><strong>Urgency Check</strong>Emergency → Transfer Mike: (614) 555-0100</div></div>
+              <div class="ss"><div class="sn" style="background:#EFF6FF;color:#2563EB">4</div><div class="st"><strong>Book Appointment</strong>Check calendar · Confirm slot · Repeat time aloud</div></div>
+              <div class="ss"><div class="sn" style="background:#F5F3FF;color:#7C3AED">5</div><div class="st"><strong>Close</strong>"Is there anything else I can help you with today?"</div></div>
+            </div>
+            <div id="tp-faq" style="display:none">
+              <div class="faq-q" onclick="toggleFaq(this)">Service area? <span>▾</span></div>
+              <div class="faq-a">Greater Columbus, 30mi radius. Outlying areas may have additional mileage charges.</div>
+              <div class="faq-q" onclick="toggleFaq(this)">After-hours emergency? <span>▾</span></div>
+              <div class="faq-a">Transfer to Mike directly, any time: (614) 555-0100.</div>
+              <div class="faq-q" onclick="toggleFaq(this)">Pricing quotes? <span>▾</span></div>
+              <div class="faq-a">Do not quote — "Mike will discuss on-site." Service call starts at $85.</div>
+              <div class="faq-q" onclick="toggleFaq(this)">Warranty on work? <span>▾</span></div>
+              <div class="faq-a">12-month workmanship guarantee. Parts carry manufacturer warranty.</div>
+            </div>
+            <div id="tp-instr" style="display:none">
+              <div class="ai"><div class="ad" style="background:var(--amb-m)"></div><div class="ac"><div class="at">⚠️ Never quote prices</div><div class="as">Always say "Mike will discuss on-site"</div></div></div>
+              <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">📍 Always capture address</div><div class="as">Required before creating any booking</div></div></div>
+              <div class="ai"><div class="ad" style="background:var(--red-m)"></div><div class="ac"><div class="at">🚨 Gas leaks / water damage</div><div class="as">Direct to turn off main + call 911 if safety risk</div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Log form -->
+        <div class="card" style="margin-top:16px"><div class="cb">
+          <div class="sl">Log Current Call</div>
+          <div class="fl2">
+            <div><div class="flbl">Caller Name</div><input id="agCallerName" class="inp" placeholder="e.g. James Hartwell"/></div>
+            <div><div class="flbl">Phone Number</div><input id="agCallerPhone" class="inp" placeholder="+1 (000) 000-0000" style="font-family:var(--mono)"/></div>
+          </div>
+          <div style="margin-bottom:10px"><div class="flbl">Notes</div><textarea id="agCallerNotes" class="txta" placeholder="Service needed, urgency, key details..."></textarea></div>
+          <div class="sl">Disposition</div>
+          <div class="dbar">
+            <button class="db" style="background:#DCFCE7;color:#15803D;border-color:#BBF7D0" onclick="selDisp(this)">✓ Booked</button>
+            <button class="db" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA" onclick="selDisp(this)">→ Transferred</button>
+            <button class="db" style="background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE" onclick="selDisp(this)">✉ Message</button>
+            <button class="db" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA" onclick="selDisp(this)">✕ Missed</button>
+            <button class="db" style="background:#F5F3FF;color:#6D28D9;border-color:#DDD6FE" onclick="selDisp(this)">✓ Resolved</button>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="bpri" onclick="submitLog()">Save &amp; Log Call</button>
+            <button class="bout">Clear</button>
+          </div>
+        </div></div>
+      </div>
+
+      <!-- CALL WORKSPACE -->
+      <div class="sec" id="sec-workspace">
+        <!-- Active Call Card -->
+        <div class="card" style="margin-bottom:16px;border:2px solid var(--grn-m)">
+          <div style="background:linear-gradient(135deg,var(--grn),#0891B2);padding:18px 22px;display:flex;align-items:center;gap:14px">
+            <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px">📞</div>
+            <div style="flex:1">
+              <div style="font-size:16px;font-weight:800;color:#fff">Active Call — Mike's Plumbing</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.8);font-family:var(--mono);margin-top:2px">+1 (614) 555-0182 · James Hartwell</div>
+            </div>
+            <div id="wsTimer" style="font-size:22px;font-weight:800;color:#fff;font-family:var(--mono);background:rgba(0,0,0,.2);border-radius:8px;padding:6px 14px">00:00</div>
+          </div>
+          <div style="padding:18px 22px;display:flex;gap:10px;flex-wrap:wrap">
+            <button id="muteBtn" onclick="toggleMute()" style="flex:1;min-width:100px;padding:12px;border-radius:10px;border:1.5px solid var(--g200);background:#fff;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s"><span style="font-size:20px">🎙</span>Mute</button>
+            <button id="holdBtn" onclick="toggleHold()" style="flex:1;min-width:100px;padding:12px;border-radius:10px;border:1.5px solid var(--g200);background:#fff;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s"><span style="font-size:20px">⏸</span>Hold</button>
+            <button onclick="toast('Transfer options…')" style="flex:1;min-width:100px;padding:12px;border-radius:10px;border:1.5px solid var(--g200);background:#fff;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:20px">↗</span>Transfer</button>
+            <button onclick="toast('Adding caller to hold...')" style="flex:1;min-width:100px;padding:12px;border-radius:10px;border:1.5px solid var(--ind-l);background:var(--ind-l);color:var(--ind);border-color:var(--ind-m);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:20px">📝</span>Note</button>
+            <button onclick="endCall()" style="flex:1;min-width:100px;padding:12px;border-radius:10px;border:none;background:var(--red);color:#fff;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:20px">📵</span>End Call</button>
+          </div>
+        </div>
+        <!-- Script + Lead Capture side by side -->
+        <div class="g2l">
+          <div class="sp">
+            <div class="sph"><div class="spht">Mike's Plumbing Co.</div><div class="sphs">Growth Plan · Live script</div>
+              <div class="sptab"><button class="act" onclick="spTab(this,'ws-script')">Script</button><button onclick="spTab(this,'ws-faq')">FAQs</button><button onclick="spTab(this,'ws-instr')">Instructions</button></div>
+            </div>
+            <div id="ws-script">
+              <div class="ss"><div class="sn" style="background:#EEF2FF;color:#4F46E5">1</div><div class="st"><strong>Greet</strong>"Thank you for calling Mike's Plumbing, this is [your name], how can I help?"</div></div>
+              <div class="ss"><div class="sn" style="background:#DCFCE7;color:#16A34A">2</div><div class="st"><strong>Capture Info</strong>Full name · Callback number · Email · Service type</div></div>
+              <div class="ss"><div class="sn" style="background:#FFF7ED;color:#D97706">3</div><div class="st"><strong>Urgency Check</strong>Emergency → Transfer Mike: (614) 555-0100</div></div>
+              <div class="ss"><div class="sn" style="background:#EFF6FF;color:#2563EB">4</div><div class="st"><strong>Book</strong>Check calendar · Confirm slot · Repeat aloud</div></div>
+              <div class="ss"><div class="sn" style="background:#F5F3FF;color:#7C3AED">5</div><div class="st"><strong>Close</strong>"Is there anything else I can help you with today?"</div></div>
+            </div>
+            <div id="ws-faq" style="display:none">
+              <div class="faq-q" onclick="toggleFaq(this)">Service area? <span>▾</span></div><div class="faq-a">Greater Columbus, 30mi radius.</div>
+              <div class="faq-q" onclick="toggleFaq(this)">After-hours emergency? <span>▾</span></div><div class="faq-a">Transfer Mike directly: (614) 555-0100.</div>
+              <div class="faq-q" onclick="toggleFaq(this)">Pricing? <span>▾</span></div><div class="faq-a">Do not quote — "Mike will discuss on-site."</div>
+            </div>
+            <div id="ws-instr" style="display:none">
+              <div class="ai"><div class="ad" style="background:var(--amb-m)"></div><div class="ac"><div class="at">⚠️ Never quote prices</div><div class="as">Always say "Mike will discuss on-site"</div></div></div>
+              <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">📍 Always capture address</div><div class="as">Required before creating any booking</div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Live Lead Capture</span></div>
+            <div class="cb">
+              <div class="fgrp"><label class="flbl">Caller Name</label><input id="wsCallerName" class="inp" placeholder="e.g. James Hartwell" value="James Hartwell"/></div>
+              <div class="fgrp"><label class="flbl">Phone</label><input id="wsCallerPhone" class="inp" placeholder="+1 (000) 000-0000" value="+1 614-555-0391" style="font-family:var(--mono)"/></div>
+              <div class="fgrp"><label class="flbl">Service Needed</label><input id="wsCallerService" class="inp" placeholder="e.g. Drain Repair"/></div>
+              <div class="fgrp"><label class="flbl">Email</label><input id="wsCallerEmail" class="inp" type="email" placeholder="caller@email.com"/></div>
+              <div class="fgrp"><label class="flbl">Notes</label><textarea id="wsCallerNotes" class="txta" placeholder="Key details, urgency..."></textarea></div>
+              <div class="sl">Disposition</div>
+              <div class="dbar">
+                <button class="db" style="background:#DCFCE7;color:#15803D;border-color:#BBF7D0" onclick="selDisp(this)">✓ Booked</button>
+                <button class="db" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA" onclick="selDisp(this)">→ Transferred</button>
+                <button class="db" style="background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE" onclick="selDisp(this)">✉ Message</button>
+                <button class="db" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA" onclick="selDisp(this)">✕ Missed</button>
+              </div>
+              <button class="bpri" style="margin-top:12px;width:100%;justify-content:center" onclick="submitLog()">Save Lead &amp; Log Call</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS -->
+      <div class="sec" id="sec-leads">
+        <div class="card">
+          <div class="ch">
+            <span class="ct">My Captured Leads</span>
+            <div style="display:flex;gap:8px">
+              <input class="inp" style="width:160px" placeholder="Search…" oninput="filterCalls(this)"/>
+              <select class="inp" style="width:120px" onchange="filterCalls(this)">
+                <option value="">All Status</option><option>Booked</option><option>Contacted</option><option>New</option><option>Lost</option>
+              </select>
+            </div>
+          </div>
+          <table class="dt" id="agLeadTbl">
+            <thead><tr><th>Caller</th><th>Client</th><th>Service</th><th>Date</th><th>Status</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0391</div></div></div></td><td>Mike's Plumbing</td><td>Drain Repair</td><td style="font-size:12px;font-family:var(--mono)">Mar 25</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Mar 28 @ 2pm</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0821</div></div></div></td><td>Mike's Plumbing</td><td>Emergency Pipe</td><td style="font-size:12px;font-family:var(--mono)">Mar 25</td><td><span class="pill pa">Contacted</span></td><td style="font-size:12px;color:var(--g500)">Transferred to Mike</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">RK</div><div><div style="font-weight:500">Robert Kim</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0209</div></div></div></td><td>Smith HVAC</td><td>Water Heater</td><td style="font-size:12px;font-family:var(--mono)">Mar 24</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Jay handled</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#F5F3FF;color:#7C3AED">AN</div><div><div style="font-weight:500">Amy Nguyen</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0441</div></div></div></td><td>Mike's Plumbing</td><td>Toilet Repair</td><td style="font-size:12px;font-family:var(--mono)">Mar 24</td><td><span class="pill pb">Contacted</span></td><td style="font-size:12px;color:var(--g500)">Awaiting callback</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">SO</div><div><div style="font-weight:500">Sara Okonkwo</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0034</div></div></div></td><td>Smith HVAC</td><td>Annual Maint.</td><td style="font-size:12px;font-family:var(--mono)">Mar 25</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Mar 29 @ 10am</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CALL LOG -->
+      <div class="sec" id="sec-calls">
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Call Log</span>
+            <div style="display:flex;gap:8px">
+              <input class="inp" style="width:180px" placeholder="Search…" oninput="filterCalls(this)"/>
+              <select class="inp" style="width:120px" onchange="filterCalls(this)">
+                <option value="">All Status</option>
+                <option>Booked</option><option>Missed</option><option>Transferred</option>
+              </select>
+            </div>
+          </div>
+          <table class="dt" id="callTable">
+            <thead><tr><th>Caller</th><th>Client</th><th>Time</th><th>Dur.</th><th>Status</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400)">+1 614-555-0391</div></div></div></td><td>Smith HVAC</td><td style="font-family:var(--mono);font-size:12px">11:42 AM</td><td style="font-family:var(--mono);font-size:12px">3:12</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Drain repair — booked Mar 28</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400)">+1 614-555-0821</div></div></div></td><td>Mike's Plumbing</td><td style="font-family:var(--mono);font-size:12px">11:29 AM</td><td style="font-family:var(--mono);font-size:12px">1:05</td><td><span class="pill pa">Transferred</span></td><td style="font-size:12px;color:var(--g500)">Emergency burst pipe</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">TB</div><div><div style="font-weight:500">Tom Briggs</div><div style="font-size:11px;color:var(--g400)">+1 614-555-0147</div></div></div></td><td>Capitol Roofing</td><td style="font-family:var(--mono);font-size:12px">11:14 AM</td><td style="font-family:var(--mono);font-size:12px">2:47</td><td><span class="pill pb">Message</span></td><td style="font-size:12px;color:var(--g500)">Roof inspection quote</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#FEF2F2;color:#DC2626">??</div><div><div style="font-weight:500">Unknown</div><div style="font-size:11px;color:var(--g400)">+1 614-555-????</div></div></div></td><td>Clean &amp; Shine</td><td style="font-family:var(--mono);font-size:12px">10:33 AM</td><td style="font-family:var(--mono);font-size:12px">0:00</td><td><span class="pill pr">Missed</span></td><td>—</td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">SO</div><div><div style="font-weight:500">Sara Okonkwo</div><div style="font-size:11px;color:var(--g400)">+1 614-555-0034</div></div></div></td><td>Smith HVAC</td><td style="font-family:var(--mono);font-size:12px">10:58 AM</td><td style="font-family:var(--mono);font-size:12px">4:02</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Annual maintenance booked</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="sec" id="sec-bookings">
+        <div class="card">
+          <div class="ch"><span class="ct">Upcoming Bookings</span><button class="bpri" style="font-size:12px;padding:6px 14px" onclick="openModal('bookingModal')">+ New Booking</button></div>
+          <table class="dt" id="agBookingTbl">
+            <thead><tr><th>Client</th><th>Contact</th><th>Date &amp; Time</th><th>Service</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Mike's Plumbing</td><td><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0391</div></td><td style="font-family:var(--mono);font-size:12px">Mar 28 — 2:00 PM</td><td>Drain Repair</td><td><span class="pill pg">Confirmed</span></td></tr>
+              <tr><td>Smith HVAC</td><td><div style="font-weight:500">Sara Okonkwo</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0034</div></td><td style="font-family:var(--mono);font-size:12px">Mar 29 — 10:00 AM</td><td>Annual Maintenance</td><td><span class="pill pg">Confirmed</span></td></tr>
+              <tr><td>Capitol Roofing</td><td><div style="font-weight:500">Tom Briggs</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0147</div></td><td style="font-family:var(--mono);font-size:12px">Mar 30 — 3:30 PM</td><td>Roof Inspection</td><td><span class="pill pa">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE -->
+      <div class="sec" id="sec-perf">
+        <div class="pgrid">
+          <div class="pc"><div class="pv" style="color:var(--grn)">94%</div><div class="pl">Answer Rate</div><div class="ps" style="background:var(--grn-l);color:var(--grn)">↑ Excellent</div></div>
+          <div class="pc"><div class="pv" style="color:var(--ind)">2:34</div><div class="pl">Avg Handle Time</div><div class="ps" style="background:var(--ind-l);color:var(--ind)">On Target</div></div>
+          <div class="pc"><div class="pv" style="color:var(--amb)">64%</div><div class="pl">Booking Rate</div><div class="ps" style="background:var(--amb-l);color:var(--amb)">↑ Good</div></div>
+          <div class="pc"><div class="pv" style="color:var(--grn)">4.8</div><div class="pl">QA Score /5</div><div class="ps" style="background:var(--grn-l);color:var(--grn)">Top Agent</div></div>
+          <div class="pc"><div class="pv">142</div><div class="pl">Calls This Month</div><div class="ps" style="background:var(--ind-l);color:var(--ind)">↑ +12%</div></div>
+          <div class="pc"><div class="pv" style="color:var(--ind)">94</div><div class="pl">Bookings Made</div><div class="ps" style="background:var(--grn-l);color:var(--grn)">↑ +18%</div></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="sec" id="sec-settings">
+        <div class="stabs">
+          <button class="stab on" onclick="stab(this,'st-profile')">Profile</button>
+          <button class="stab" onclick="stab(this,'st-notif')">Notifications</button>
+          <button class="stab" onclick="stab(this,'st-shift')">Shift Prefs</button>
+        </div>
+        <div class="sgrid">
+          <div class="stsec on" id="st-profile">
+            <div class="sc"><div class="sc-title">Profile Settings</div>
+              <div class="fgrp"><label>Full Name</label><input class="inp" value="Maria Rodriguez"/></div>
+              <div class="fgrp"><label>Email</label><input class="inp" value="maria@birdlin.io"/></div>
+              <div class="fgrp"><label>Extension</label><input class="inp" value="Ext. 104"/></div>
+              <button class="bpri" onclick="toast('Profile saved')">Save Changes</button>
+            </div>
+          </div>
+          <div class="stsec on" id="st-notif">
+            <div class="sc"><div class="sc-title">Notifications</div>
+              <div class="tog-row"><span class="tog-label">Incoming call sound</span><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+              <div class="tog-row"><span class="tog-label">Desktop notifications</span><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+              <div class="tog-row"><span class="tog-label">Missed call alerts</span><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+              <div class="tog-row"><span class="tog-label">Email digest</span><label class="tog"><input type="checkbox"/><span class="tog-sl"></span></label></div>
+            </div>
+          </div>
+          <div class="stsec on" id="st-shift">
+            <div class="sc"><div class="sc-title">Shift Preferences</div>
+              <div class="fgrp"><label>Shift Start</label><input class="inp" type="time" value="06:00"/></div>
+              <div class="fgrp"><label>Shift End</label><input class="inp" type="time" value="14:00"/></div>
+              <div class="tog-row"><span class="tog-label">Auto go Offline at shift end</span><label class="tog"><input type="checkbox" checked/><span class="tog-sl"></span></label></div>
+              <button class="bpri" style="margin-top:12px" onclick="toast('Shift saved')">Save Shift</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page -->
+  </div><!-- /mc -->
+</div><!-- /app -->
+
+<div id="toast"><span id="tmsg"></span></div>
+
+<script>
+// STATUS
+function setStatus(s){
+  ['ok','busy','off'].forEach(k=>{
+    const el=document.getElementById('sp-'+k);
+    if(el) {
+      el.classList.remove('active','ok','busy','off');
+      if(k===s){el.classList.add('active',s);}
+    }
+  });
+  toast(s==='ok'?'Status: Online':s==='busy'?'Status: Busy':'Status: Offline');
+}
+
+// INCOMING CALL BANNER
+let callInt=null,callSec=0;
+function showBanner(){
+  const b=document.getElementById('callBanner');
+  if(b) b.style.display='flex';
+  callSec=0;
+  callInt=setInterval(()=>{
+    callSec++;
+    const m=String(Math.floor(callSec/60)).padStart(2,'0');
+    const s=String(callSec%60).padStart(2,'0');
+    const tel = document.getElementById('callTimer');
+    if(tel) tel.textContent=m+':'+s;
+  },1000);
+}
+function dismissBanner(){
+  const b = document.getElementById('callBanner');
+  if(b) b.style.display='none';
+  clearInterval(callInt);
+  toast('Call declined');
+}
+function openScript(){
+  const sp = document.getElementById('scriptPanel');
+  if(sp) sp.scrollIntoView({behavior:'smooth'});
+}
+
+// SCRIPT PANEL TABS
+function spTab(btn,id){
+  btn.closest('.sptab').querySelectorAll('button').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  ['tp-script','tp-faq','tp-instr','ws-script','ws-faq','ws-instr'].forEach(t=>{
+    const el=document.getElementById(t);
+    if(el)el.style.display=t===id?'block':'none';
+  });
+}
+
+// FAQ TOGGLE
+function toggleFaq(el){
+  const a=el.nextElementSibling;
+  if(a) a.classList.toggle('open');
+}
+
+// DISPOSITION
+function selDisp(btn){
+  document.querySelectorAll('.dbar .db').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+// LOG SUBMIT
+function selectedDisposition(){
+  const selected=document.querySelector('.dbar .db.sel');
+  if(!selected) return 'New';
+  const t=selected.textContent.toLowerCase();
+  if(t.includes('book')) return 'Booked';
+  if(t.includes('transfer')) return 'Contacted';
+  if(t.includes('message')) return 'Contacted';
+  if(t.includes('missed')) return 'Lost';
+  return 'New';
+}
+
+function addAgentLeadAndCall(payload){
+  const initials = BirdlinUI.initials(payload.name || 'NA');
+  const leadTable = document.querySelector('#agLeadTbl tbody');
+  const callTable = document.querySelector('#callTable tbody');
+  if(leadTable){
+    const leadRow = document.createElement('tr');
+    const leadPill = payload.status === 'Booked' ? 'pg' : payload.status === 'Contacted' ? 'pa' : payload.status === 'Lost' ? 'pr' : 'pi';
+    leadRow.innerHTML = `<td><div class="cr"><div class="av" style="background:#EEF2FF;color:#4F46E5">${initials}</div><div><div style="font-weight:500">${payload.name}</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">${payload.phone}</div></div></div></td><td>${payload.client}</td><td>${payload.service}</td><td style="font-size:12px;font-family:var(--mono)">${BirdlinUI.formatDateShort(payload.date)}</td><td><span class="pill ${leadPill}">${payload.status}</span></td><td style="font-size:12px;color:var(--g500)">${payload.notes || 'Saved from live call'}</td>`;
+    leadTable.prepend(leadRow);
+  }
+  if(callTable){
+    const callRow = document.createElement('tr');
+    const callPill = payload.status === 'Booked' ? 'pg' : payload.status === 'Contacted' ? 'pa' : payload.status === 'Lost' ? 'pr' : 'pb';
+    callRow.innerHTML = `<td><div class="cr"><div class="av" style="background:#EEF2FF;color:#4F46E5">${initials}</div><div><div style="font-weight:500">${payload.name}</div><div style="font-size:11px;color:var(--g400)">${payload.phone}</div></div></div></td><td>${payload.client}</td><td style="font-family:var(--mono);font-size:12px">${new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</td><td style="font-family:var(--mono);font-size:12px">${payload.duration || '2:10'}</td><td><span class="pill ${callPill}">${payload.status}</span></td><td style="font-size:12px;color:var(--g500)">${payload.notes || 'Live call logged'}</td>`;
+    callTable.prepend(callRow);
+  }
+}
+
+function submitLog(){
+  const name=(document.getElementById('wsCallerName')?.value || document.getElementById('agCallerName')?.value || '').trim() || 'Unknown Caller';
+  const phone=(document.getElementById('wsCallerPhone')?.value || document.getElementById('agCallerPhone')?.value || '').trim() || 'N/A';
+  const service=(document.getElementById('wsCallerService')?.value || '').trim() || 'General Inquiry';
+  const notes=(document.getElementById('wsCallerNotes')?.value || document.getElementById('agCallerNotes')?.value || '').trim();
+  const status=selectedDisposition();
+  const payload={name,phone,service,notes,status,client:"Mike's Plumbing",date:new Date().toISOString().slice(0,10)};
+  addAgentLeadAndCall(payload);
+  BirdlinStore.addAgentLead(payload);
+  BirdlinStore.addAgentCall(payload);
+  BirdlinStore.addUsageCalls(1);
+  if(status==='Booked'){
+    const bookingPayload={name,phone,service,client:"Mike's Plumbing",date:new Date(Date.now()+86400000).toISOString().slice(0,10),time:'14:00',status:'Confirmed'};
+    BirdlinStore.addAgentBooking(bookingPayload);
+    addAgentBookingRow(bookingPayload);
+  }
+  BirdlinStore.addNotification({title:`${status} call logged`,sub:`${name} • ${service}`,time:'now'});
+  BirdlinUI.appendTopNotification({title:`${status} call logged`,sub:`${name} • ${service}`,time:'now'});
+  toast('Call logged, lead captured, and client feed updated');
+}
+
+function addAgentBookingRow(payload){
+  const bookingTable = document.querySelector('#agBookingTbl tbody');
+  if(!bookingTable) return;
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${payload.client}</td><td><div style="font-weight:500">${payload.name}</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">${payload.phone}</div></td><td style="font-family:var(--mono);font-size:12px">${BirdlinUI.formatDateTime(payload.date,payload.time)}</td><td>${payload.service}</td><td><span class="pill pg">${payload.status || 'Confirmed'}</span></td>`;
+  bookingTable.prepend(row);
+}
+
+function createAgentBookingFromModal(){
+  const name=(document.getElementById('agBookName')?.value || '').trim();
+  const phone=(document.getElementById('agBookPhone')?.value || '').trim();
+  const client=document.getElementById('agBookClient')?.value || "Mike's Plumbing Co.";
+  const service=(document.getElementById('agBookService')?.value || '').trim();
+  const date=document.getElementById('agBookDate')?.value;
+  const time=document.getElementById('agBookTime')?.value || '09:00';
+  if(!name || !date){
+    toast('Customer name and date are required');
+    return;
+  }
+  const bookingPayload={name,phone:phone || 'N/A',client,service:service || 'General Service',date,time,status:'Confirmed'};
+  addAgentBookingRow(bookingPayload);
+  BirdlinStore.addAgentBooking(bookingPayload);
+  BirdlinStore.addNotification({title:'Booking created',sub:`${name} • ${client} • ${BirdlinUI.formatDateTime(date,time)}`,time:'now'});
+  BirdlinUI.appendTopNotification({title:'Booking created',sub:`${name} • ${client}`,time:'now'});
+  closeModal('bookingModal');
+  toast('Booking created and synced to client view');
+}
+
+// CALL WORKSPACE TIMER
+let wsInt=null,wsSec=0,wsMuted=false,wsHeld=false;
+function startWsTimer(){
+  if(wsInt)return;
+  wsInt=setInterval(()=>{
+    wsSec++;
+    const m=String(Math.floor(wsSec/60)).padStart(2,'0');
+    const s=String(wsSec%60).padStart(2,'0');
+    const wt = document.getElementById('wsTimer');
+    if(wt) wt.textContent=m+':'+s;
+  },1000);
+  const wl = document.getElementById('wsLive');
+  if(wl) wl.style.display='inline-flex';
+}
+function toggleMute(){
+  wsMuted=!wsMuted;
+  const b=document.getElementById('muteBtn');
+  if(b) {
+    b.querySelector('span').textContent=wsMuted?'🔇':'🎙';
+    b.children[1].textContent=wsMuted?'Unmute':'Mute';
+    b.style.background=wsMuted?'var(--red-l)':'';
+    b.style.borderColor=wsMuted?'#FECACA':'';
+  }
+  toast(wsMuted?'Microphone muted':'Microphone active');
+}
+function toggleHold(){
+  wsHeld=!wsHeld;
+  const b=document.getElementById('holdBtn');
+  if(b) {
+    b.querySelector('span').textContent=wsHeld?'▶':'⏸';
+    b.children[1].textContent=wsHeld?'Resume':'Hold';
+    b.style.background=wsHeld?'var(--amb-l)':'';
+    b.style.borderColor=wsHeld?'#FDE68A':'';
+  }
+  toast(wsHeld?'Call on hold — caller hears hold music':'Resumed call');
+}
+function endCall(){
+  clearInterval(wsInt);wsInt=null;wsSec=0;
+  const wt = document.getElementById('wsTimer');
+  if(wt) wt.textContent='00:00';
+  const wl = document.getElementById('wsLive');
+  if(wl) wl.style.display='none';
+  toast('Call ended — please log disposition ✓');
+  nav('overview',document.querySelector('.ni'));
+}
+// Auto-start timer when workspace is opened via answer
+function answerCall(){
+    dismissBanner();
+    nav('workspace',document.querySelector('[onclick*=\"workspace\"]'));
+    startWsTimer();
+    toast('Call connected — workspace loaded ✓');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const state = BirdlinStore.getState();
+  state.custom.agentLeads.forEach(addAgentLeadAndCall);
+  state.custom.agentBookings.forEach(addAgentBookingRow);
+});
+
+</script>
+</body>
+</html>

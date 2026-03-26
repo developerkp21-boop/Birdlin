@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0;url=admin_dashboard.html"/>
+<title>Redirecting — Birdlin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ind:#4F46E5;--ind-l:#EEF2FF;--ind-m:#C7D2FE;
+  --pur:#7C3AED;--pur-l:#F5F3FF;
+  --grn:#16A34A;--grn-l:#DCFCE7;--grn-m:#22C55E;
+  --amb:#D97706;--amb-l:#FEF3C7;--amb-m:#F59E0B;
+  --red:#DC2626;--red-l:#FEF2F2;--red-m:#EF4444;
+  --blu:#2563EB;--blu-l:#EFF6FF;--blu-m:#3B82F6;
+  --tel:#0891B2;--tel-l:#ECFEFF;
+  --g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g300:#D1D5DB;
+  --g400:#9CA3AF;--g500:#6B7280;--g600:#4B5563;--g700:#374151;
+  --g800:#1F2937;--g900:#111827;
+  --page:#F8F9FF;--sbw:220px;--tbh:56px;
+  --font:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:10px;--rs:7px;--sh:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04)
+}
+body{font-family:var(--font);background:var(--page);color:var(--g800);font-size:14px;line-height:1.5;min-height:100vh}
+.tabs{position:fixed;top:0;left:0;right:0;z-index:1000;background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 24px;height:48px;gap:4px;box-shadow:var(--sh)}
+.tlogo{font-size:15px;font-weight:800;color:var(--ind);margin-right:20px;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.tlm{width:26px;height:26px;background:linear-gradient(135deg,var(--ind),var(--pur));border-radius:7px;display:flex;align-items:center;justify-content:center}
+.tlm svg{width:14px;height:14px;fill:#fff}
+.tb{padding:6px 16px;border-radius:7px;border:none;background:none;font-family:var(--font);font-size:13px;font-weight:500;color:var(--g500);cursor:pointer;transition:all .15s}
+.tb:hover{background:var(--g100);color:var(--g700)}
+.tb.on{background:var(--ind);color:#fff;font-weight:600}
+.thint{margin-left:auto;font-size:11px;color:var(--g400);font-weight:500}
+.app{display:flex;padding-top:48px;min-height:100vh}
+.dash{display:none;width:100%}
+.dash.vis{display:flex}
+.sb{width:var(--sbw);background:#fff;border-right:1px solid var(--g200);display:flex;flex-direction:column;height:calc(100vh - 48px);position:sticky;top:48px;overflow-y:auto;flex-shrink:0}
+.sb-brand{padding:18px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--g100)}
+.sb-av{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.sb-name{font-size:13px;font-weight:700;color:var(--g800)}
+.sb-role{font-size:11px;color:var(--g400)}
+.sb-nav{padding:10px 8px;flex:1}
+.ng{font-size:10px;font-weight:700;color:var(--g400);letter-spacing:.9px;text-transform:uppercase;padding:8px 8px 4px}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--g600);cursor:pointer;transition:all .12s;margin-bottom:1px;position:relative}
+.ni:hover{background:var(--g50);color:var(--g800)}
+.ni.on{background:var(--ind-l);color:var(--ind);font-weight:600}
+.ni.on::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--ind);border-radius:0 3px 3px 0}
+.ni-ic{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.ni.on .ni-ic{opacity:1}
+.nbadge{margin-left:auto;background:var(--red-m);color:#fff;border-radius:10px;padding:1px 6px;font-size:9.5px;font-weight:700}
+.nbg{margin-left:auto;background:var(--g200);color:var(--g600);border-radius:10px;padding:1px 6px;font-size:9.5px;font-weight:600}
+.sb-foot{padding:12px 8px;border-top:1px solid var(--g100)}
+.mc{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{height:var(--tbh);background:#fff;border-bottom:1px solid var(--g200);display:flex;align-items:center;padding:0 24px;gap:12px;position:sticky;top:48px;z-index:100}
+.tb-title{font-size:15px;font-weight:700;color:var(--g900)}
+.tb-sub{font-size:12px;color:var(--g400);margin-left:4px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.spill{display:flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:600}
+.spill.online{background:var(--grn-l);color:var(--grn)}
+.sdot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.tav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.tbtn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--rs);border:1px solid var(--g200);background:#fff;font-family:var(--font);font-size:12px;font-weight:500;color:var(--g600);cursor:pointer;transition:all .12s}
+.tbtn:hover{background:var(--g50);border-color:var(--g300)}
+.page{padding:24px;flex:1}
+.card{background:#fff;border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--sh)}
+.ch{padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:600;color:var(--g700)}
+.cb{padding:16px 18px}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.mcard{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:18px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.mcard::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
+.mi1::after{background:linear-gradient(90deg,var(--ind),var(--pur))}
+.mi2::after{background:linear-gradient(90deg,var(--grn-m),var(--tel))}
+.mi3::after{background:linear-gradient(90deg,var(--amb-m),var(--red-m))}
+.mi4::after{background:linear-gradient(90deg,var(--blu-m),var(--ind))}
+.mi5::after{background:linear-gradient(90deg,var(--tel),var(--grn-m))}
+.mic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.mic svg{width:18px;height:18px}
+.ml{font-size:11px;font-weight:600;color:var(--g500);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.mv{font-size:28px;font-weight:800;color:var(--g900);letter-spacing:-1px;line-height:1}
+.mch{font-size:11.5px;font-weight:600;margin-top:6px}
+.cup{color:var(--grn)}.cdn{color:var(--red)}.cne{color:var(--g400)}
+.ca{background:#fff;border:2px solid var(--amb-m);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:16px;margin-bottom:20px;box-shadow:0 0 0 4px rgba(245,158,11,.08);animation:pr 2s ease-in-out infinite}
+@keyframes pr{0%,100%{box-shadow:0 0 0 4px rgba(245,158,11,.08)}50%{box-shadow:0 0 0 8px rgba(245,158,11,.04)}}
+.cri{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#F97316,#EF4444);display:flex;align-items:center;justify-content:center;flex-shrink:0;animation:bn 1s ease-in-out infinite}
+@keyframes bn{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.cri svg{width:22px;height:22px;fill:#fff}
+.cai{flex:1}
+.cbn{font-size:14px;font-weight:700;color:var(--g900)}
+.ccn{font-size:12px;color:var(--g400);font-family:var(--mono);margin-top:2px}
+.ctb{display:inline-flex;align-items:center;gap:5px;background:var(--amb-l);color:var(--amb);border-radius:5px;padding:3px 9px;font-size:11px;font-weight:700;font-family:var(--mono);margin-top:5px}
+.cact{display:flex;gap:8px;flex-shrink:0}
+.bans{background:var(--grn);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(22,163,74,.3);transition:all .15s}
+.bans:hover{background:#15803d;transform:translateY(-1px)}
+.bdec{background:var(--red-l);color:var(--red);border:1.5px solid #FECACA;border-radius:8px;padding:9px 16px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer}
+.bscr{background:var(--ind-l);color:var(--ind);border:1.5px solid var(--ind-m);border-radius:8px;padding:9px 16px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer}
+.tc2{display:grid;grid-template-columns:1fr 280px;gap:16px}
+.t23{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.dt{width:100%;border-collapse:collapse}
+.dt th{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.7px;padding:10px 16px;text-align:left;border-bottom:1px solid var(--g200);background:var(--g50)}
+.dt td{padding:12px 16px;border-bottom:1px solid var(--g100);font-size:13px;color:var(--g700);vertical-align:middle}
+.dt tr:last-child td{border-bottom:none}
+.dt tr:hover td{background:var(--g50)}
+.dt tr{cursor:pointer;transition:background .1s}
+.pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.2px;gap:4px}
+.pg{background:var(--grn-l);color:var(--grn)}
+.pa{background:var(--amb-l);color:var(--amb)}
+.pr{background:var(--red-l);color:var(--red)}
+.pb{background:var(--blu-l);color:var(--blu)}
+.pi{background:var(--ind-l);color:var(--ind)}
+.pgr{background:var(--g100);color:var(--g600)}
+.pp{background:var(--pur-l);color:var(--pur)}
+.av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.avc{border-radius:50%}
+.cr{display:flex;align-items:center;gap:10px}
+.sp{background:#fff;border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.sph{background:linear-gradient(135deg,var(--ind),var(--pur));padding:14px 16px;display:flex;align-items:center;gap:10px}
+.spht{font-size:13px;font-weight:700;color:#fff}
+.sphs{font-size:11px;color:rgba(255,255,255,.65)}
+.ss{display:flex;gap:12px;padding:11px 16px;border-bottom:1px solid var(--g100);align-items:flex-start}
+.ss:last-child{border-bottom:none}
+.sn{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px}
+.st{font-size:12.5px;color:var(--g600);line-height:1.5}
+.st strong{color:var(--g800);font-weight:600;display:block;margin-bottom:1px}
+.ubw{margin-bottom:14px}
+.ubl{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ubn{font-size:12.5px;font-weight:500;color:var(--g700)}
+.ubv{font-size:12px;font-weight:600;color:var(--g500);font-family:var(--mono)}
+.ubt{height:6px;background:var(--g100);border-radius:10px;overflow:hidden}
+.ubf{height:100%;border-radius:10px;transition:width .5s}
+.ai{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--g100);align-items:flex-start}
+.ai:last-child{border-bottom:none}
+.ad{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ac{flex:1}
+.at{font-size:12.5px;font-weight:500;color:var(--g800)}
+.as{font-size:11.5px;color:var(--g400);margin-top:1px}
+.atime{font-size:11px;color:var(--g400);font-family:var(--mono);flex-shrink:0}
+.clr{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--g100);cursor:pointer;transition:background .1s}
+.clr:last-child{border-bottom:none}
+.clr:hover{background:var(--g50)}
+.cli{flex:1}
+.cln{font-size:13px;font-weight:600;color:var(--g800)}
+.clm{font-size:11.5px;color:var(--g400);margin-top:1px}
+.clu{text-align:right}
+.clc{font-size:13px;font-weight:700;color:var(--g800);font-family:var(--mono)}
+.clp{font-size:10.5px;color:var(--g400)}
+.bp{background:linear-gradient(135deg,var(--ind),var(--pur));border-radius:var(--r);padding:18px;color:#fff;margin-bottom:14px}
+.bpn{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bpp{font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1}
+.bpc{font-size:13px;opacity:.65}
+.bur{display:flex;justify-content:space-between;margin-top:14px;opacity:.9}
+.bul{font-size:11px;opacity:.7}
+.buv{font-size:13px;font-weight:700}
+.nt{border-radius:var(--rs);padding:12px 14px;font-size:12.5px;display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.nta{background:var(--amb-l);border-left:3px solid var(--amb-m);color:#92400E;border-radius:0 var(--rs) var(--rs) 0}
+.ntg{background:var(--grn-l);border-left:3px solid var(--grn-m);color:#14532D;border-radius:0 var(--rs) var(--rs) 0}
+.ntb{background:var(--blu-l);border-left:3px solid var(--blu-m);color:#1E40AF;border-radius:0 var(--rs) var(--rs) 0}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:10px}
+.bpri{background:var(--ind);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.bpri:hover{background:#4338CA;transform:translateY(-1px)}
+.bout{background:#fff;color:var(--g700);border:1px solid var(--g200);border-radius:8px;padding:7px 14px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .12s}
+.bout:hover{background:var(--g50);border-color:var(--g300)}
+.dbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.db{padding:6px 12px;border-radius:7px;border:1.5px solid;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .12s}
+.rr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--g100)}
+.rr:last-child{border-bottom:none}
+.rp{width:30px;height:30px;border-radius:50%;background:var(--ind-l);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.rp svg{width:12px;height:12px;fill:var(--ind)}
+.ri{flex:1}
+.rn{font-size:12.5px;font-weight:500;color:var(--g700)}
+.rm{font-size:11.5px;color:var(--g400);margin-top:1px}
+.rd{font-size:12px;font-family:var(--mono);color:var(--g500)}
+.sl{font-size:11px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.sr{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g100)}
+.sr:last-child{border-bottom:none}
+.srlab{font-size:12.5px;color:var(--g600)}
+.srval{font-size:13px;font-weight:700;color:var(--g800);font-family:var(--mono)}
+/* DROPDOWNS */
+.dd-wrap{position:relative}
+.dd-menu{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--g200);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:220px;z-index:999;display:none;overflow:hidden}
+.dd-menu.open{display:block;animation:ddfade .15s ease}
+@keyframes ddfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.dd-head{padding:14px 16px;border-bottom:1px solid var(--g100)}
+.dd-name{font-size:13px;font-weight:700;color:var(--g800)}
+.dd-email{font-size:11px;color:var(--g400);margin-top:1px}
+.dd-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:var(--g600);cursor:pointer;transition:.1s;text-decoration:none}
+.dd-item:hover{background:var(--g50);color:var(--g800)}
+.dd-item svg{width:14px;height:14px;flex-shrink:0;opacity:.6}
+.dd-sep{height:1px;background:var(--g100);margin:4px 0}
+.dd-item.danger{color:var(--red)}
+.dd-item.danger:hover{background:var(--red-l)}
+.notif-item{padding:12px 16px;border-bottom:1px solid var(--g100);cursor:pointer;transition:.1s}
+.notif-item:hover{background:var(--g50)}
+.notif-item:last-child{border-bottom:none}
+.notif-title{font-size:12.5px;font-weight:600;color:var(--g800)}
+.notif-sub{font-size:11.5px;color:var(--g400);margin-top:1px}
+.notif-time{font-size:10.5px;color:var(--g400);margin-top:3px;font-family:var(--mono)}
+.notif-hd{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--g200)}
+.notif-hd span{font-size:12px;font-weight:700;color:var(--g700)}
+.notif-hd button{font-size:11px;color:var(--ind);background:none;border:none;cursor:pointer;font-family:var(--font)}
+.nav-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--ind),var(--pur));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;border:2px solid var(--g200);transition:.15s}
+.nav-av:hover{border-color:var(--ind)}
+.notif-badge{position:relative}
+.notif-badge::after{content:'2';position:absolute;top:-4px;right:-4px;background:var(--red-m);color:#fff;border-radius:50%;width:14px;height:14px;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font)}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex;animation:ddfade .2s ease}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:540px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden}
+.modal-hd{padding:18px 20px;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:700;color:var(--g900)}
+.modal-close{width:28px;height:28px;border-radius:7px;border:none;background:var(--g100);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--g500)}
+.modal-close:hover{background:var(--g200)}
+.modal-body{padding:20px}
+.modal-foot{padding:14px 20px;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:8px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.flbl{font-size:11px;font-weight:600;color:var(--g500);margin-bottom:5px}
+.minp{width:100%;border:1px solid var(--g200);border-radius:var(--rs);padding:8px 10px;font-size:13px;font-family:var(--font);outline:none;color:var(--g800);transition:border .15s}
+.minp:focus{border-color:var(--ind)}
+</style>
+</head>
+<body>
+<div class="tabs">
+  <div class="tlogo">
+    <div class="tlm"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
+    Birdlin
+  </div>
+  <a class="tb" href="login.html">← Login</a>
+  <a class="tb" href="agent_dashboard.html">Agent</a>
+  <a class="tb" href="client_dashboard.html">Client</a>
+  <button class="tb on" onclick="sw('agent',this)">Agent Dashboard</button>
+  <button class="tb" onclick="sw('client',this)">Client Portal</button>
+  <button class="tb" onclick="sw('admin',this)">Admin Panel</button>
+  <span class="thint">Click tabs to switch dashboards</span>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+    <div class="dd-wrap notif-badge">
+      <div style="width:32px;height:32px;border-radius:7px;border:1px solid var(--g200);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px" onclick="toggleDd('notifDd')">🔔</div>
+      <div class="dd-menu" id="notifDd" style="min-width:300px">
+        <div class="notif-hd"><span>Notifications</span><button onclick="showT('All marked read')">Mark all read</button></div>
+        <div class="notif-item"><div class="notif-title">Overage triggered — Capitol Roofing</div><div class="notif-sub">28/40 calls — 2 over limit</div><div class="notif-time">2 hours ago</div></div>
+        <div class="notif-item"><div class="notif-title">New client onboarded</div><div class="notif-sub">Ace Electrical — Starter plan</div><div class="notif-time">1 hour ago</div></div>
+      </div>
+    </div>
+    <div class="dd-wrap">
+      <div class="nav-av" onclick="toggleDd('userDd')">SA</div>
+      <div class="dd-menu" id="userDd">
+        <div class="dd-head"><div class="dd-name">Super Admin</div><div class="dd-email">admin@birdlin.io</div></div>
+        <a class="dd-item" href="agent_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Agent Dashboard</a>
+        <a class="dd-item" href="client_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Client Portal</a>
+        <div class="dd-sep"></div>
+        <div class="dd-item danger" onclick="showT('Logged out')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"/></svg>Sign Out</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARD CLIENT MODAL -->
+<div class="modal-bg" id="onboardModal">
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">🏢 Onboard New Client</span><button class="modal-close" onclick="closeM('onboardModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="fg2"><div><div class="flbl">Business Name</div><input class="minp" placeholder="e.g. Smith HVAC Services"/></div><div><div class="flbl">Industry</div><select class="minp"><option>Plumbing</option><option>HVAC</option><option>Roofing</option><option>Electrical</option><option>Cleaning</option><option>Property Mgmt</option><option>Other</option></select></div></div>
+      <div class="fg2"><div><div class="flbl">Contact Name</div><input class="minp" placeholder="e.g. John Smith"/></div><div><div class="flbl">Phone Number</div><input class="minp" placeholder="+1 (000) 000-0000"/></div></div>
+      <div class="fg2"><div><div class="flbl">Email Address</div><input class="minp" type="email" placeholder="john@business.com"/></div><div><div class="flbl">Plan</div><select class="minp"><option>Starter — $299/mo (40 calls)</option><option>Growth — $549/mo (100 calls)</option><option>Enterprise — Custom</option></select></div></div>
+      <div><div class="flbl">City / State</div><input class="minp" placeholder="e.g. Columbus, OH"/></div>
+    </div>
+    <div class="modal-foot"><button style="background:#fff;border:1px solid var(--g200);border-radius:8px;padding:7px 14px;font-family:var(--font);font-size:13px;cursor:pointer" onclick="closeM('onboardModal')">Cancel</button><button style="background:var(--ind);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer" onclick="closeM('onboardModal');showT('Client onboarded ✓')">Onboard Client</button></div>
+  </div>
+</div>
+<div class="app">
+
+<!-- AGENT -->
+<div class="dash vis" id="d-agent">
+  <div class="sb">
+    <div class="sb-brand">
+      <div class="sb-av" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">MR</div>
+      <div><div class="sb-name">Maria R.</div><div class="sb-role">Receptionist Agent</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ng">Workspace</div>
+      <div class="ni on"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Dashboard</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v1h8V5H4zm0 3v1h8V8H4zm0 3v1h5v-1H4z"/></svg>Call Log<span class="nbadge">3</span></div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 4h2v5H7V4zm0 6h2v2H7v-2z"/></svg>Scripts & FAQs</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M5 2v2M11 2v2M2 7h12"/></svg>Bookings</div>
+      <div class="ng">Clients</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Assigned Clients<span class="nbg">6</span></div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M2 4a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V4z"/></svg>Knowledge Base</div>
+    </div>
+    <div class="sb-foot"><div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 5v3l1.5 1.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>Shift: 6am–2pm</div></div>
+  </div>
+  <div class="mc">
+    <div class="topbar">
+      <div><span class="tb-title">Agent Dashboard</span><span class="tb-sub">Tuesday, March 25</span></div>
+      <div class="tb-right">
+        <div class="spill online"><div class="sdot"></div>Online — Ready</div>
+        <button class="tbtn">Queue: 0</button>
+        <div class="tav" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">MR</div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="ca">
+        <div class="cri"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg></div>
+        <div class="cai">
+          <div class="cbn">Incoming call — Mike's Plumbing Co.</div>
+          <div class="ccn">+1 (614) 555-0182 &nbsp;·&nbsp; Unknown caller &nbsp;·&nbsp; Plumbing / Home Services</div>
+          <div class="ctb">00:09</div>
+        </div>
+        <div class="cact">
+          <button class="bscr">View Script</button>
+          <button class="bdec">Decline</button>
+          <button class="bans">Answer Call</button>
+        </div>
+      </div>
+      <div class="mg">
+        <div class="mcard mi1"><div class="mic" style="background:#EEF2FF"><svg viewBox="0 0 20 20" fill="#4F46E5"><path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm2 2v10h12V5H4z"/></svg></div><div class="ml">Calls Today</div><div class="mv">14</div><div class="mch cup">↑ 3 vs yesterday</div></div>
+        <div class="mcard mi2"><div class="mic" style="background:#DCFCE7"><svg viewBox="0 0 20 20" fill="#16A34A"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div><div class="ml">Bookings</div><div class="mv">9</div><div class="mch cup">64% booking rate</div></div>
+        <div class="mcard mi3"><div class="mic" style="background:#FEF3C7"><svg viewBox="0 0 20 20" fill="#D97706"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg></div><div class="ml">Avg Handle</div><div class="mv">2:34</div><div class="mch cne">— On target</div></div>
+        <div class="mcard mi4"><div class="mic" style="background:#EFF6FF"><svg viewBox="0 0 20 20" fill="#2563EB"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div class="ml">Clients on Shift</div><div class="mv">6</div><div class="mch cup">All active</div></div>
+      </div>
+      <div class="tc2">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="ch"><span class="ct">Recent Calls</span><span style="font-size:12px;color:var(--ind);font-weight:600;cursor:pointer">View all →</span></div>
+            <table class="dt" style="margin-top:8px">
+              <thead><tr><th>Caller</th><th>Client</th><th>Time</th><th>Dur.</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0391</div></div></div></td><td>Smith HVAC</td><td style="font-family:var(--mono);font-size:12px">11:42 AM</td><td style="font-family:var(--mono);font-size:12px">3:12</td><td><span class="pill pg">Booked</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0821</div></div></div></td><td>Mike's Plumbing</td><td style="font-family:var(--mono);font-size:12px">11:29 AM</td><td style="font-family:var(--mono);font-size:12px">1:05</td><td><span class="pill pa">Transferred</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">TB</div><div><div style="font-weight:500">Tom Briggs</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0147</div></div></div></td><td>Capitol Roofing</td><td style="font-family:var(--mono);font-size:12px">11:14 AM</td><td style="font-family:var(--mono);font-size:12px">2:47</td><td><span class="pill pb">Message</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">SO</div><div><div style="font-weight:500">Sara Okonkwo</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0034</div></div></div></td><td>Smith HVAC</td><td style="font-family:var(--mono);font-size:12px">10:58 AM</td><td style="font-family:var(--mono);font-size:12px">4:02</td><td><span class="pill pg">Booked</span></td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#FEF2F2;color:#DC2626">??</div><div><div style="font-weight:500">Unknown</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-????</div></div></div></td><td>Clean &amp; Shine</td><td style="font-family:var(--mono);font-size:12px">10:33 AM</td><td style="font-family:var(--mono);font-size:12px">0:00</td><td><span class="pill pr">Missed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card cb">
+            <div class="sl">Log Current Call</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+              <div><div style="font-size:11px;font-weight:600;color:var(--g500);margin-bottom:5px">Caller Name</div><input style="width:100%;border:1px solid var(--g200);border-radius:7px;padding:8px 10px;font-size:13px;font-family:var(--font);outline:none;color:var(--g800)" placeholder="e.g. James Hartwell"/></div>
+              <div><div style="font-size:11px;font-weight:600;color:var(--g500);margin-bottom:5px">Phone Number</div><input style="width:100%;border:1px solid var(--g200);border-radius:7px;padding:8px 10px;font-size:13px;font-family:var(--mono);outline:none;color:var(--g800)" placeholder="+1 (000) 000-0000"/></div>
+            </div>
+            <div style="margin-bottom:10px"><div style="font-size:11px;font-weight:600;color:var(--g500);margin-bottom:5px">Notes</div><textarea style="width:100%;border:1px solid var(--g200);border-radius:7px;padding:8px 10px;font-size:13px;font-family:var(--font);outline:none;resize:none;height:64px;color:var(--g800)" placeholder="Service needed, urgency, key details..."></textarea></div>
+            <div class="sl">Disposition</div>
+            <div class="dbar">
+              <button class="db" style="background:#DCFCE7;color:#15803D;border-color:#BBF7D0">✓ Booked</button>
+              <button class="db" style="background:#FFF7ED;color:#C2410C;border-color:#FED7AA">→ Transferred</button>
+              <button class="db" style="background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE">✉ Message</button>
+              <button class="db" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA">✕ Missed</button>
+              <button class="db" style="background:#F5F3FF;color:#6D28D9;border-color:#DDD6FE">✓ Resolved</button>
+            </div>
+          </div>
+        </div>
+        <div class="sp">
+          <div class="sph"><div><div class="spht">Mike's Plumbing Co.</div><div class="sphs">Growth Plan · Active script</div></div></div>
+          <div class="ss"><div class="sn" style="background:#EEF2FF;color:#4F46E5">1</div><div class="st"><strong>Greet</strong>"Thank you for calling Mike's Plumbing, this is [your name], how can I help?"</div></div>
+          <div class="ss"><div class="sn" style="background:#DCFCE7;color:#16A34A">2</div><div class="st"><strong>Capture Info</strong>Full name · Callback number · Email · Service type</div></div>
+          <div class="ss"><div class="sn" style="background:#FFF7ED;color:#D97706">3</div><div class="st"><strong>Urgency Check</strong>Emergency → Transfer Mike: (614) 555-0100</div></div>
+          <div class="ss"><div class="sn" style="background:#EFF6FF;color:#2563EB">4</div><div class="st"><strong>Book Appointment</strong>Check Google Cal · Confirm slot · Repeat time aloud</div></div>
+          <div class="ss"><div class="sn" style="background:#F5F3FF;color:#7C3AED">5</div><div class="st"><strong>Close</strong>"Is there anything else I can help you with today?"</div></div>
+          <div style="padding:14px 16px;border-top:1px solid var(--g100)">
+            <div class="sl" style="margin-bottom:8px">Quick FAQs</div>
+            <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">Service area?</div><div class="as">Greater Columbus, 30mi radius</div></div></div>
+            <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">After-hours emergency?</div><div class="as">Transfer to Mike directly, any time</div></div></div>
+            <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">Pricing quotes?</div><div class="as">Do not quote — "Mike will discuss on-site"</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENT -->
+<div class="dash" id="d-client">
+  <div class="sb">
+    <div class="sb-brand">
+      <div class="sb-av" style="background:linear-gradient(135deg,#0891B2,#4F46E5)">MP</div>
+      <div><div class="sb-name">Mike's Plumbing</div><div class="sb-role">Growth Plan</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ng">Overview</div>
+      <div class="ni on"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Dashboard</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v1h8V5H4zm0 3v1h8V8H4zm0 3v1h5v-1H4z"/></svg>Call History</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>Recordings</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M5 2v2M11 2v2M2 7h12"/></svg>Bookings</div>
+      <div class="ng">Account</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="4" width="14" height="9" rx="2"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/></svg>Billing &amp; Usage</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h10v2H3V3zm0 4h6v2H3V7zm0 4h8v2H3v-2z"/></svg>Integrations</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm1 9H7V7h2v4zm0-6H7V4h2v1z"/></svg>Business Settings</div>
+    </div>
+    <div class="sb-foot"><div class="nt nta" style="font-size:11px;margin-bottom:0"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;margin-top:1px"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm.75 4.75h-1.5v4h1.5v-4zm0 5h-1.5v1.5h1.5v-1.5z"/></svg><span>32 of 100 calls used</span></div></div>
+  </div>
+  <div class="mc">
+    <div class="topbar">
+      <div><span class="tb-title">Client Portal</span><span class="tb-sub">Mike's Plumbing Co.</span></div>
+      <div class="tb-right">
+        <span style="font-size:12px;color:var(--g400)">Resets in <strong style="color:var(--g700)">6 days</strong></span>
+        <button class="tbtn">Export Report</button>
+        <div class="tav" style="background:linear-gradient(135deg,#0891B2,#4F46E5)">MP</div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="nt ntg"><svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;margin-top:1px"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3.7 5.7l-4 4a1 1 0 01-1.4 0l-2-2a1 1 0 011.4-1.4L7 8.6l3.3-3.3a1 1 0 011.4 1.4z"/></svg>Your Birdlin receptionist answered 32 calls this month — 21 resulted in booked appointments. That's $0 in missed revenue from unanswered calls.</div>
+      <div class="mg">
+        <div class="mcard mi1"><div class="mic" style="background:#EEF2FF"><svg viewBox="0 0 20 20" fill="#4F46E5"><path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm2 2v10h12V5H4z"/></svg></div><div class="ml">Total Calls</div><div class="mv">32</div><div class="mch cup">↑ 8 vs last month</div></div>
+        <div class="mcard mi2"><div class="mic" style="background:#DCFCE7"><svg viewBox="0 0 20 20" fill="#16A34A"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div><div class="ml">Appointments Booked</div><div class="mv">21</div><div class="mch cup">66% conversion</div></div>
+        <div class="mcard mi3"><div class="mic" style="background:#FEF3C7"><svg viewBox="0 0 20 20" fill="#D97706"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/></svg></div><div class="ml">Calls Remaining</div><div class="mv">68</div><div class="mch cne">of 100 included</div></div>
+        <div class="mcard mi5"><div class="mic" style="background:#ECFEFF"><svg viewBox="0 0 20 20" fill="#0891B2"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/></svg></div><div class="ml">Messages Taken</div><div class="mv">7</div><div class="mch cne">All delivered</div></div>
+      </div>
+      <div class="t23">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="ch" style="padding-bottom:12px"><span class="ct">Call History — March 2026</span><div style="display:flex;gap:8px"><button class="bout" style="font-size:12px;padding:5px 10px">Filter</button><button class="bout" style="font-size:12px;padding:5px 10px">Export CSV</button></div></div>
+            <table class="dt">
+              <thead><tr><th>Caller</th><th>Date &amp; Time</th><th>Duration</th><th>Outcome</th><th>Agent</th></tr></thead>
+              <tbody>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400)">Drain repair inquiry</div></div></div></td><td style="font-size:12px;color:var(--g500);font-family:var(--mono)">Mar 25, 11:42 AM</td><td style="font-family:var(--mono);font-size:12px">3:12</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Maria R.</td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400)">Emergency burst pipe</div></div></div></td><td style="font-size:12px;color:var(--g500);font-family:var(--mono)">Mar 25, 11:29 AM</td><td style="font-family:var(--mono);font-size:12px">1:05</td><td><span class="pill pa">Transferred</span></td><td style="font-size:12px;color:var(--g500)">Maria R.</td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">RK</div><div><div style="font-weight:500">Robert Kim</div><div style="font-size:11px;color:var(--g400)">Water heater install</div></div></div></td><td style="font-size:12px;color:var(--g500);font-family:var(--mono)">Mar 24, 2:17 PM</td><td style="font-family:var(--mono);font-size:12px">4:34</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Jay C.</td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">AN</div><div><div style="font-weight:500">Amy Nguyen</div><div style="font-size:11px;color:var(--g400)">Toilet repair quote</div></div></div></td><td style="font-size:12px;color:var(--g500);font-family:var(--mono)">Mar 24, 10:05 AM</td><td style="font-family:var(--mono);font-size:12px">2:21</td><td><span class="pill pb">Message</span></td><td style="font-size:12px;color:var(--g500)">Maria R.</td></tr>
+                <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">DW</div><div><div style="font-weight:500">Dan Willis</div><div style="font-size:11px;color:var(--g400)">Annual maintenance</div></div></div></td><td style="font-size:12px;color:var(--g500);font-family:var(--mono)">Mar 23, 9:44 AM</td><td style="font-family:var(--mono);font-size:12px">3:58</td><td><span class="pill pg">Booked</span></td><td style="font-size:12px;color:var(--g500)">Jay C.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card"><div class="ch"><span class="ct">Recent Recordings</span><span style="font-size:12px;color:var(--ind);font-weight:600;cursor:pointer">View all →</span></div><div class="cb"><div class="rr"><button class="rp"><svg viewBox="0 0 16 16"><path d="M5 3.5l9 4.5-9 4.5V3.5z"/></svg></button><div class="ri"><div class="rn">James Hartwell — Drain Repair</div><div class="rm">Mar 25, 11:42 AM · Maria R. · Booked</div></div><div class="rd">3:12</div></div><div class="rr"><button class="rp"><svg viewBox="0 0 16 16"><path d="M5 3.5l9 4.5-9 4.5V3.5z"/></svg></button><div class="ri"><div class="rn">Linda Park — Emergency Burst Pipe</div><div class="rm">Mar 25, 11:29 AM · Maria R. · Transferred</div></div><div class="rd">1:05</div></div><div class="rr"><button class="rp"><svg viewBox="0 0 16 16"><path d="M5 3.5l9 4.5-9 4.5V3.5z"/></svg></button><div class="ri"><div class="rn">Robert Kim — Water Heater Install</div><div class="rm">Mar 24, 2:17 PM · Jay C. · Booked</div></div><div class="rd">4:34</div></div></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card cb">
+            <div class="bp"><div class="bpn">Growth Plan</div><div style="display:flex;align-items:baseline;gap:4px"><span class="bpp">$549</span><span class="bpc">/month</span></div><div class="bur"><div><div class="bul">Calls used</div><div class="buv">32/100</div></div><div><div class="bul">Overage</div><div class="buv">$6.50/call</div></div><div><div class="bul">Next bill</div><div class="buv">Mar 31</div></div></div></div>
+            <div class="ubw"><div class="ubl"><span class="ubn">Calls used this cycle</span><span class="ubv">32/100</span></div><div class="ubt"><div class="ubf" style="width:32%;background:linear-gradient(90deg,var(--ind),var(--pur))"></div></div></div>
+            <button class="bpri" style="width:100%;justify-content:center">Upgrade Plan</button>
+          </div>
+          <div class="card cb">
+            <div class="sl">Connected Integrations</div>
+            <div class="ai"><div class="ad" style="background:var(--grn-m)"></div><div class="ac"><div class="at">Google Calendar</div><div class="as">Live booking sync · Active</div></div><span class="pill pg" style="font-size:10px">Live</span></div>
+            <div class="ai"><div class="ad" style="background:var(--grn-m)"></div><div class="ac"><div class="at">Twilio SMS</div><div class="as">Post-call notifications</div></div><span class="pill pg" style="font-size:10px">Live</span></div>
+            <div class="ai"><div class="ad" style="background:var(--g300)"></div><div class="ac"><div class="at">HubSpot CRM</div><div class="as">Not connected</div></div><button class="bout" style="font-size:11px;padding:4px 10px">Connect</button></div>
+            <div class="ai"><div class="ad" style="background:var(--g300)"></div><div class="ac"><div class="at">Housecall Pro</div><div class="as">Not connected</div></div><button class="bout" style="font-size:11px;padding:4px 10px">Connect</button></div>
+            <div class="ai"><div class="ad" style="background:var(--g300)"></div><div class="ac"><div class="at">ServiceTitan</div><div class="as">Not connected</div></div><button class="bout" style="font-size:11px;padding:4px 10px">Connect</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="dash" id="d-admin">
+  <div class="sb">
+    <div class="sb-brand">
+      <div class="sb-av" style="background:linear-gradient(135deg,var(--ind),var(--pur));color:#fff"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/></svg></div>
+      <div><div class="sb-name">Birdlin Admin</div><div class="sb-role">Super Admin</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ng">Operations</div>
+      <div class="ni on"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Overview</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="6" cy="4" r="2"/><circle cx="10" cy="4" r="2"/><path d="M2 12c0-2.2 1.8-4 4-4s4 1.8 4 4H2z"/><path d="M10 8c1.7.4 3 2 3 4h-2"/></svg>Clients<span class="nbg">8</span></div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Agents<span class="nbg">3</span></div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v1h8V5H4zm0 3v1h8V8H4zm0 3v1h5v-1H4z"/></svg>All Calls</div>
+      <div class="ng">Business</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="4" width="14" height="9" rx="2"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/></svg>Billing &amp; Revenue</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2v4zm0-6H7V4h2v1z"/></svg>QA &amp; Scoring<span class="nbadge">2</span></div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h10v2H3V3zm0 4h6v2H3V7zm0 4h8v2H3v-2z"/></svg>Reports</div>
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm1 9H7V7h2v4zm0-6H7V4h2v1z"/></svg>Integrations</div>
+    </div>
+    <div class="sb-foot"><div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>Platform Status<span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--grn-m);flex-shrink:0"></span></div></div>
+  </div>
+  <div class="mc">
+    <div class="topbar">
+      <div><span class="tb-title">Admin Overview</span><span class="tb-sub">March 2026</span></div>
+      <div class="tb-right">
+        <button class="bout" onclick="openM('onboardModal')">+ Onboard Client</button>
+        <button class="bpri"><svg width="13" height="13" viewBox="0 0 16 16" fill="white"><path d="M8 2v12M2 8h12"/></svg>Add Agent</button>
+        <div class="tav" style="background:linear-gradient(135deg,var(--ind),var(--pur))">SA</div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="mg">
+        <div class="mcard mi1"><div class="mic" style="background:#EEF2FF"><svg viewBox="0 0 20 20" fill="#4F46E5"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/></svg></div><div class="ml">Monthly Revenue</div><div class="mv">$3,891</div><div class="mch cup">↑ $598 vs last month</div></div>
+        <div class="mcard mi2"><div class="mic" style="background:#DCFCE7"><svg viewBox="0 0 20 20" fill="#16A34A"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div class="ml">Active Clients</div><div class="mv">8</div><div class="mch cup">+2 this month</div></div>
+        <div class="mcard mi4"><div class="mic" style="background:#EFF6FF"><svg viewBox="0 0 20 20" fill="#2563EB"><path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm2 2v10h12V5H4z"/></svg></div><div class="ml">Calls This Month</div><div class="mv">284</div><div class="mch cup">↑ 41 vs last month</div></div>
+        <div class="mcard mi3"><div class="mic" style="background:#FEF3C7"><svg viewBox="0 0 20 20" fill="#D97706"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div><div class="ml">Bookings</div><div class="mv">181</div><div class="mch cup">64% avg rate</div></div>
+      </div>
+      <div class="tc2">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="ch" style="padding-bottom:0"><span class="ct">All Clients</span><button class="bout" style="font-size:12px;padding:5px 12px" onclick="openM('onboardModal')">+ Onboard New</button></div>
+            <div style="margin-top:8px">
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff;font-size:10px">MP</div><div class="cli"><div class="cln">Mike's Plumbing Co.</div><div class="clm">Columbus, OH · Plumbing</div></div><div class="clu"><div class="clc">32<span style="color:var(--g300);font-weight:400">/100</span></div><div class="clp">Growth · $549/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-size:10px">SH</div><div class="cli"><div class="cln">Smith HVAC Services</div><div class="clm">Columbus, OH · HVAC</div></div><div class="clu"><div class="clc">40<span style="color:var(--g300);font-weight:400">/100</span></div><div class="clp">Growth · $549/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff;font-size:10px">CR</div><div class="cli"><div class="cln">Capitol Roofing</div><div class="clm">Columbus, OH · Roofing</div></div><div class="clu"><div class="clc">28<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pa">At limit</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#7C3AED,#4F46E5);color:#fff;font-size:10px">CS</div><div class="cli"><div class="cln">Clean &amp; Shine Services</div><div class="clm">Columbus, OH · Cleaning</div></div><div class="clu"><div class="clc">14<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#EF4444,#F97316);color:#fff;font-size:10px">AE</div><div class="cli"><div class="cln">Ace Electrical</div><div class="clm">Columbus, OH · Electrical</div></div><div class="clu"><div class="clc">19<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#16A34A);color:#fff;font-size:10px">TH</div><div class="cli"><div class="cln">TruHome Property Mgmt</div><div class="clm">Columbus, OH · Property</div></div><div class="clu"><div class="clc">38<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pr">Near limit</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">Agent Performance — March 2026</span></div>
+            <table class="dt" style="margin-top:8px">
+              <thead><tr><th>Agent</th><th>Shift</th><th>Calls</th><th>Bookings</th><th>Avg Time</th><th>QA Score</th></tr></thead>
+              <tbody>
+                <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff">MR</div><div style="font-weight:500">Maria R.</div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono);font-size:12px">142</td><td><span class="pill pg">94 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:41</td><td><span class="pill pi">4.8/5</span></td></tr>
+                <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff">JC</div><div style="font-weight:500">Jay C.</div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono);font-size:12px">98</td><td><span class="pill pg">61 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:29</td><td><span class="pill pi">4.6/5</span></td></tr>
+                <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff">RA</div><div style="font-weight:500">Rica A.</div></div></td><td style="font-size:12px;color:var(--g500)">2pm–10pm</td><td style="font-family:var(--mono);font-size:12px">44</td><td><span class="pill pa">26 booked</span></td><td style="font-family:var(--mono);font-size:12px">3:02</td><td><span class="pill pa">4.1/5</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card cb">
+            <div class="sl">Revenue Breakdown</div>
+            <div class="bp" style="padding:14px"><div class="bpn">March 2026 MRR</div><div class="bpp">$3,891</div><div style="margin-top:8px;font-size:11px;opacity:.7">Next billing: March 31</div></div>
+            <div class="sr"><span class="srlab">Starter plans (4 × $299)</span><span class="srval">$1,196</span></div>
+            <div class="sr"><span class="srlab">Growth plans (2 × $549)</span><span class="srval">$1,098</span></div>
+            <div class="sr"><span class="srlab">Overage charges</span><span class="srval">$247</span></div>
+            <div class="sr" style="border-top:2px solid var(--g200);padding-top:8px;margin-top:4px"><span class="srlab" style="font-weight:700;color:var(--g800)">Total collected</span><span class="srval" style="color:var(--ind)">$2,541</span></div>
+          </div>
+          <div class="card cb">
+            <div class="sl">Live Activity</div>
+            <div class="ai"><div class="ad" style="background:var(--grn-m)"></div><div class="ac"><div class="at">Booking confirmed</div><div class="as">James Hartwell → Mike's Plumbing</div></div><div class="atime">now</div></div>
+            <div class="ai"><div class="ad" style="background:var(--amb-m)"></div><div class="ac"><div class="at">Call transferred</div><div class="as">Emergency → Mike (614-555-0100)</div></div><div class="atime">4m</div></div>
+            <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">New client onboarded</div><div class="as">Ace Electrical — Starter plan</div></div><div class="atime">1h</div></div>
+            <div class="ai"><div class="ad" style="background:var(--red-m)"></div><div class="ac"><div class="at">Overage triggered</div><div class="as">Capitol Roofing — 2 calls over</div></div><div class="atime">2h</div></div>
+            <div class="ai"><div class="ad" style="background:var(--grn-m)"></div><div class="ac"><div class="at">Payment received</div><div class="as">TruHome — $299.00</div></div><div class="atime">3h</div></div>
+            <div class="ai"><div class="ad" style="background:var(--pur)"></div><div class="ac"><div class="at">QA review flagged</div><div class="as">Rica A. — call #284 score 3.2/5</div></div><div class="atime">5h</div></div>
+          </div>
+          <div class="card cb">
+            <div class="sl">Plan Usage — Top Clients</div>
+            <div class="ubw"><div class="ubl"><span class="ubn">Smith HVAC</span><span class="ubv">40/100</span></div><div class="ubt"><div class="ubf" style="width:40%;background:linear-gradient(90deg,var(--ind),var(--pur))"></div></div></div>
+            <div class="ubw"><div class="ubl"><span class="ubn">Capitol Roofing</span><span class="ubv" style="color:var(--amb)">28/40</span></div><div class="ubt"><div class="ubf" style="width:70%;background:linear-gradient(90deg,var(--amb-m),var(--red-m))"></div></div></div>
+            <div class="ubw"><div class="ubl"><span class="ubn">TruHome Property</span><span class="ubv" style="color:var(--red)">38/40</span></div><div class="ubt"><div class="ubf" style="width:95%;background:linear-gradient(90deg,var(--red-m),#B91C1C)"></div></div></div>
+            <div class="ubw"><div class="ubl"><span class="ubn">Mike's Plumbing</span><span class="ubv">32/100</span></div><div class="ubt"><div class="ubf" style="width:32%;background:linear-gradient(90deg,var(--tel),var(--blu-m))"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function sw(which, btn) {
+  document.querySelectorAll('.dash').forEach(d => d.classList.remove('vis'));
+  document.getElementById('d-' + which).classList.add('vis');
+  document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function toggleDd(id){const el=document.getElementById(id);el.classList.toggle('open');document.querySelectorAll('.dd-menu').forEach(d=>{if(d.id!==id)d.classList.remove('open');});}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function openM(id){document.getElementById(id).classList.add('open');}
+function showT(msg){
+  let t=document.getElementById('admToast');
+  if(!t){t=document.createElement('div');t.id='admToast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:#111827;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.2);font-family:var(--font)';document.body.appendChild(t);}
+  t.textContent='✓ '+msg;t.style.display='flex';
+  clearTimeout(t._to);t._to=setTimeout(()=>t.style.display='none',2500);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.dd-wrap'))document.querySelectorAll('.dd-menu').forEach(d=>d.classList.remove('open'));
+});
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+// Wire onboard buttons
+document.querySelectorAll('.bout').forEach(b=>{
+  if(b.textContent.includes('Onboard')&&b.closest('.topbar'))b.addEventListener('click',()=>openM('onboardModal'));
+  if(b.textContent.includes('+ Onboard'))b.addEventListener('click',()=>openM('onboardModal'));
+});
+</script>
+</body>
+</html>

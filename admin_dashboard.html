@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Panel — Birdlin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/birdlin.css"/>
+<script src="assets/js/birdlin.js"></script>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"><span id="tmsg"></span></div>
+
+<!-- TOP NAVIGATION -->
+<div class="topnav">
+  <a class="logo" href="login.html">
+    <div class="logo-m"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
+    Birdlin
+  </a>
+  <a class="navlink" href="agent_dashboard.html">Agent</a>
+  <a class="navlink" href="client_dashboard.html">Client</a>
+  <a class="navlink on" href="admin_dashboard.html">Admin</a>
+  <div class="nav-right">
+    <div class="dd-wrap notif-badge">
+      <div class="nav-icon" onclick="toggleDd('notifDd')" style="font-size:15px">🔔</div>
+      <div class="dd-menu" id="notifDd" style="min-width:300px">
+        <div class="notif-hd"><span>Notifications</span><button onclick="toast('All marked read')">Mark all read</button></div>
+        <div class="notif-item"><div class="notif-title">Overage triggered — Capitol Roofing</div><div class="notif-sub">28/40 calls — 2 over plan limit</div><div class="notif-time">2 hours ago</div></div>
+        <div class="notif-item"><div class="notif-title">New client onboarded — Ace Electrical</div><div class="notif-sub">Starter plan · $299/mo</div><div class="notif-time">1 hour ago</div></div>
+        <div class="notif-item"><div class="notif-title">Monthly invoice generated — $3,891</div><div class="notif-sub">March 2026 · Due Mar 31</div><div class="notif-time">Today</div></div>
+      </div>
+    </div>
+    <div class="dd-wrap">
+      <div class="nav-av" onclick="toggleDd('userDd')">SA</div>
+      <div class="dd-menu" id="userDd">
+        <div class="dd-head"><div class="dd-name">Super Admin</div><div class="dd-email">admin@birdlin.io · Platform Admin</div></div>
+        <a class="dd-item" href="agent_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Agent Dashboard</a>
+        <a class="dd-item" href="client_dashboard.html"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Client Portal</a>
+        <div class="dd-sep"></div>
+        <div class="dd-item danger" onclick="toast('Logged out')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>Sign Out</div>
+      </div>
+    </div>
+    <button class="ham" onclick="toggleSidebar()">☰</button>
+  </div>
+</div>
+
+<!-- ONBOARD CLIENT MODAL -->
+<div class="modal-bg" id="onboardModal">
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">🏢 Onboard New Client</span><button class="modal-close" onclick="closeModal('onboardModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="fg2">
+        <div><div class="flbl">Business Name</div><input id="adClientName" class="inp" placeholder="e.g. Smith HVAC Services"/></div>
+        <div><div class="flbl">Industry</div><select id="adClientIndustry" class="inp"><option>Plumbing</option><option>HVAC</option><option>Roofing</option><option>Electrical</option><option>Cleaning</option><option>Property Mgmt</option><option>Other</option></select></div>
+      </div>
+      <div class="fg2">
+        <div><div class="flbl">Contact Name</div><input id="adClientContact" class="inp" placeholder="e.g. John Smith"/></div>
+        <div><div class="flbl">Phone Number</div><input id="adClientPhone" class="inp" placeholder="+1 (000) 000-0000" style="font-family:var(--mono)"/></div>
+      </div>
+      <div class="fg2">
+        <div><div class="flbl">Email Address</div><input id="adClientEmail" class="inp" type="email" placeholder="john@business.com"/></div>
+        <div><div class="flbl">Plan</div><select id="adClientPlan" class="inp"><option>Starter — $299/mo (40 calls)</option><option>Growth — $549/mo (100 calls)</option><option>Enterprise — Custom</option></select></div>
+      </div>
+      <div><div class="flbl">City / State</div><input id="adClientCity" class="inp" placeholder="e.g. Columbus, OH"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="bout" onclick="closeModal('onboardModal')">Cancel</button>
+      <button class="bpri" onclick="onboardClient()">Onboard Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD AGENT MODAL -->
+<div class="modal-bg" id="addAgentModal">
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">👤 Add New Agent</span><button class="modal-close" onclick="closeModal('addAgentModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="fg2">
+        <div><div class="flbl">Full Name</div><input id="adAgentName" class="inp" placeholder="e.g. Maria Rodriguez"/></div>
+        <div><div class="flbl">Email</div><input id="adAgentEmail" class="inp" type="email" placeholder="maria@birdlin.io"/></div>
+      </div>
+      <div class="fg2">
+        <div><div class="flbl">Shift</div><select id="adAgentShift" class="inp"><option>6am – 2pm</option><option>2pm – 10pm</option><option>10pm – 6am</option><option>Flexible</option></select></div>
+        <div><div class="flbl">Skills</div><select id="adAgentSkills" class="inp"><option>General</option><option>Plumbing</option><option>HVAC</option><option>Property</option></select></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="bout" onclick="closeModal('addAgentModal')">Cancel</button>
+      <button class="bpri" onclick="addAdminAgent()">Add Agent</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sb" id="sb">
+    <div class="sb-brand">
+      <div class="sb-av" style="background:linear-gradient(135deg,var(--ind),var(--pur));color:#fff"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/></svg></div>
+      <div><div class="sb-name">Birdlin Admin</div><div class="sb-role">Super Administrator</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="ng">Operations</div>
+      <div class="ni on" onclick="nav('overview',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="2" width="5.5" height="5.5" rx="1.5"/><rect x="2" y="8.5" width="5.5" height="5.5" rx="1.5"/><rect x="8.5" y="8.5" width="5.5" height="5.5" rx="1.5"/></svg>Overview</div>
+      <div class="ni" onclick="nav('clients',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="6" cy="4" r="2"/><circle cx="10" cy="4" r="2"/><path d="M2 12c0-2.2 1.8-4 4-4s4 1.8 4 4H2z"/><path d="M10 8c1.7.4 3 2 3 4h-2"/></svg>Clients<span class="nbg" id="adminClientCountBadge" style="margin-left:auto">8</span></div>
+      <div class="ni" onclick="nav('agents',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="5" r="3"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6H2z"/></svg>Agents<span class="nbg" id="adminAgentCountBadge" style="margin-left:auto">3</span></div>
+      <div class="ni" onclick="nav('logs',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm1 3v1h8V5H4zm0 3v1h8V8H4zm0 3v1h5v-1H4z"/></svg>All Call Logs</div>
+      <div class="ng">Business</div>
+      <div class="ni" onclick="nav('revenue',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="4" width="14" height="9" rx="2"/><path d="M5 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/></svg>Billing & Revenue</div>
+      <div class="ni" onclick="nav('qa',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2v4zm0-6H7V4h2v1z"/></svg>QA & Scoring<span class="nbadge">2</span></div>
+      <div class="ni" onclick="nav('reports',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h10v2H3V3zm0 4h6v2H3V7zm0 4h8v2H3v-2z"/></svg>Reports</div>
+      <div class="ng">Platform</div>
+      <div class="ni" onclick="nav('integrations',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M10 3a1 1 0 011-1h3v3a1 1 0 01-1 1h-1v2h1a1 1 0 011 1v3h-3a1 1 0 01-1-1v-1H8v1a1 1 0 01-1 1H4V9a1 1 0 011-1h1V6H5a1 1 0 01-1-1V2h3a1 1 0 011 1v1h2V3z"/></svg>Integrations</div>
+      <div class="ni" onclick="nav('settings',this)"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm1 9H7V7h2v4zm0-6H7V4h2v1z"/></svg>Settings</div>
+    </div>
+    <div class="sb-foot">
+      <div class="ni"><svg class="ni-ic" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>Platform Status<span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--grn-m);flex-shrink:0"></span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="mc">
+    <div class="topbar">
+      <div><span class="tb-title" id="ptitle">Overview</span><span class="tb-sub">March 2026</span></div>
+      <div class="tb-right">
+        <button class="bout" onclick="openModal('onboardModal')">+ Onboard Client</button>
+        <button class="bpri" onclick="openModal('addAgentModal')"><svg width="12" height="12" viewBox="0 0 16 16" fill="white"><path d="M8 2v12M2 8h12" stroke="white" stroke-width="2.5"/></svg>Add Agent</button>
+      </div>
+    </div>
+
+    <div class="page">
+
+      <!-- OVERVIEW -->
+      <div class="sec on" id="sec-overview">
+        <div class="mg">
+          <div class="mcard"><div class="mic" style="background:#EEF2FF"><svg viewBox="0 0 20 20" fill="#4F46E5"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/></svg></div><div class="ml">Monthly Revenue</div><div class="mv">$3,891</div><div class="mch cup">↑ $598 vs last month</div></div>
+          <div class="mcard"><div class="mic" style="background:#DCFCE7"><svg viewBox="0 0 20 20" fill="#16A34A"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div class="ml">Active Clients</div><div class="mv">8</div><div class="mch cup">+2 this month</div></div>
+          <div class="mcard"><div class="mic" style="background:#EFF6FF"><svg viewBox="0 0 20 20" fill="#2563EB"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg></div><div class="ml">Calls This Month</div><div class="mv">284</div><div class="mch cup">↑ 41 vs last month</div></div>
+          <div class="mcard"><div class="mic" style="background:#FEF3C7"><svg viewBox="0 0 20 20" fill="#D97706"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg></div><div class="ml">Bookings</div><div class="mv">181</div><div class="mch cup">64% avg rate</div></div>
+        </div>
+        <div class="tc2">
+          <!-- Clients + Agent Performance -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card">
+              <div class="ch"><span class="ct">All Clients</span><button class="bout" style="font-size:12px;padding:5px 12px" onclick="openModal('onboardModal')">+ Onboard New</button></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff;font-size:10px;border-radius:8px">MP</div><div class="cli"><div class="cln">Mike's Plumbing Co.</div><div class="clm">Columbus, OH · Plumbing</div></div><div class="clu"><div class="clc">32<span style="color:var(--g300);font-weight:400">/100</span></div><div class="clp">Growth · $549/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-size:10px;border-radius:8px">SH</div><div class="cli"><div class="cln">Smith HVAC Services</div><div class="clm">Columbus, OH · HVAC</div></div><div class="clu"><div class="clc">40<span style="color:var(--g300);font-weight:400">/100</span></div><div class="clp">Growth · $549/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff;font-size:10px;border-radius:8px">CR</div><div class="cli"><div class="cln">Capitol Roofing</div><div class="clm">Columbus, OH · Roofing</div></div><div class="clu"><div class="clc">28<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pa">At limit</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#7C3AED,#4F46E5);color:#fff;font-size:10px;border-radius:8px">CS</div><div class="cli"><div class="cln">Clean &amp; Shine Services</div><div class="clm">Columbus, OH · Cleaning</div></div><div class="clu"><div class="clc">14<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#EF4444,#F97316);color:#fff;font-size:10px;border-radius:8px">AE</div><div class="cli"><div class="cln">Ace Electrical</div><div class="clm">Columbus, OH · Electrical</div></div><div class="clu"><div class="clc">19<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pg">Active</span></div>
+              <div class="clr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#16A34A);color:#fff;font-size:10px;border-radius:8px">TH</div><div class="cli"><div class="cln">TruHome Property Mgmt</div><div class="clm">Columbus, OH · Property</div></div><div class="clu"><div class="clc">38<span style="color:var(--g300);font-weight:400">/40</span></div><div class="clp">Starter · $299/mo</div></div><span class="pill pr">Near limit</span></div>
+            </div>
+            <div class="card">
+              <div class="ch"><span class="ct">Agent Performance — March 2026</span></div>
+              <table class="dt">
+                <thead><tr><th>Agent</th><th>Shift</th><th>Calls</th><th>Bookings</th><th>Avg Handle</th><th>QA</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff">MR</div><div style="font-weight:500">Maria R.</div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono);font-size:12px">142</td><td><span class="pill pg">94 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:41</td><td><span class="pill pi">4.8/5</span></td><td><span class="pill pg">On shift</span></td></tr>
+                  <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff">JC</div><div style="font-weight:500">Jay C.</div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono);font-size:12px">98</td><td><span class="pill pg">61 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:29</td><td><span class="pill pi">4.6/5</span></td><td><span class="pill pg">On shift</span></td></tr>
+                  <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff">RA</div><div style="font-weight:500">Rica A.</div></div></td><td style="font-size:12px;color:var(--g500)">2pm–10pm</td><td style="font-family:var(--mono);font-size:12px">44</td><td><span class="pill pa">26 booked</span></td><td style="font-family:var(--mono);font-size:12px">3:02</td><td><span class="pill pa">4.1/5</span></td><td><span class="pill pr">Off shift</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Revenue + Live Activity -->
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div class="card cb">
+              <div style="font-size:12px;font-weight:700;color:var(--g500);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">Revenue Breakdown</div>
+              <div class="bp" style="padding:14px;margin-bottom:12px"><div class="bpn">March 2026 MRR</div><div class="bpp">$3,891</div><div style="margin-top:6px;font-size:11px;opacity:.7">Next billing: March 31, 2026</div></div>
+              <div class="sr"><span class="srlab">Starter plans (4 × $299)</span><span class="srval">$1,196</span></div>
+              <div class="sr"><span class="srlab">Growth plans (2 × $549)</span><span class="srval">$1,098</span></div>
+              <div class="sr"><span class="srlab">Overage charges</span><span class="srval">$247</span></div>
+              <div class="sr"><span class="srlab">Setup fees</span><span class="srval">$350</span></div>
+              <div class="sr" style="border-top:2px solid var(--g200);padding-top:10px;margin-top:4px"><span class="srlab" style="font-weight:700;color:var(--g800)">Total collected</span><span class="srval" style="color:var(--ind)">$2,891</span></div>
+            </div>
+            <div class="card cb">
+              <div style="font-size:12px;font-weight:700;color:var(--g500);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">Live Activity</div>
+              <div class="ai"><div class="ad" style="background:var(--grn-m)"></div><div class="ac"><div class="at">Booking confirmed</div><div class="as">James Hartwell → Mike's Plumbing</div></div><div class="atime">now</div></div>
+              <div class="ai"><div class="ad" style="background:var(--amb-m)"></div><div class="ac"><div class="at">Call transferred</div><div class="as">Emergency → Mike (614-555-0100)</div></div><div class="atime">4m</div></div>
+              <div class="ai"><div class="ad" style="background:var(--ind)"></div><div class="ac"><div class="at">New client onboarded</div><div class="as">Ace Electrical — Starter plan</div></div><div class="atime">1h</div></div>
+              <div class="ai"><div class="ad" style="background:var(--red-m)"></div><div class="ac"><div class="at">Overage triggered</div><div class="as">Capitol Roofing — 2 calls over limit</div></div><div class="atime">2h</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTS -->
+      <div class="sec" id="sec-clients">
+        <div class="card">
+          <div class="ch"><span class="ct">All Clients</span><div style="display:flex;gap:8px"><input class="inp" style="width:180px" placeholder="Search clients…" oninput="filterTbl('clientsTbl',this)"/><button class="bpri" onclick="openModal('onboardModal')">+ Onboard</button></div></div>
+          <table class="dt" id="clientsTbl">
+            <thead><tr><th>Client</th><th>Plan</th><th>Monthly</th><th>Calls Used</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff;font-size:10px;border-radius:8px">MP</div><div><div style="font-weight:600">Mike's Plumbing Co.</div><div style="font-size:11px;color:var(--g400)">Columbus, OH · mike@mikesplumbing.com</div></div></div></td><td><span class="pill pi">Growth</span></td><td style="font-family:var(--mono);font-size:12.5px">$549</td><td style="font-family:var(--mono);font-size:12px">32/100</td><td><span class="pill pg">Active</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;font-size:10px;border-radius:8px">SH</div><div><div style="font-weight:600">Smith HVAC Services</div><div style="font-size:11px;color:var(--g400)">Columbus, OH · smith@smithhvac.com</div></div></div></td><td><span class="pill pi">Growth</span></td><td style="font-family:var(--mono);font-size:12.5px">$549</td><td style="font-family:var(--mono);font-size:12px">40/100</td><td><span class="pill pg">Active</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff;font-size:10px;border-radius:8px">CR</div><div><div style="font-weight:600">Capitol Roofing</div><div style="font-size:11px;color:var(--g400)">Columbus, OH · info@capitolroofing.com</div></div></div></td><td><span class="pill pg">Starter</span></td><td style="font-family:var(--mono);font-size:12.5px">$299</td><td style="font-family:var(--mono);font-size:12px">28/40</td><td><span class="pill pa">At limit</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#7C3AED,#4F46E5);color:#fff;font-size:10px;border-radius:8px">CS</div><div><div style="font-weight:600">Clean &amp; Shine Services</div><div style="font-size:11px;color:var(--g400)">Columbus, OH · hello@cleanshine.com</div></div></div></td><td><span class="pill pg">Starter</span></td><td style="font-family:var(--mono);font-size:12.5px">$299</td><td style="font-family:var(--mono);font-size:12px">14/40</td><td><span class="pill pg">Active</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#EF4444,#F97316);color:#fff;font-size:10px;border-radius:8px">AE</div><div><div style="font-weight:600">Ace Electrical</div><div style="font-size:11px;color:var(--g400)">Columbus, OH · ace@aceelectrical.com</div></div></div></td><td><span class="pill pg">Starter</span></td><td style="font-family:var(--mono);font-size:12.5px">$299</td><td style="font-family:var(--mono);font-size:12px">19/40</td><td><span class="pill pg">Active</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- AGENTS -->
+      <div class="sec" id="sec-agents">
+        <div class="card">
+          <div class="ch"><span class="ct">Agents</span><button class="bpri" onclick="openModal('addAgentModal')">+ Add Agent</button></div>
+          <table class="dt" id="agentsTbl">
+            <thead><tr><th>Agent</th><th>Shift</th><th>Calls This Month</th><th>Bookings</th><th>Avg Handle</th><th>QA Score</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff">MR</div><div><div style="font-weight:600">Maria Rodriguez</div><div style="font-size:11px;color:var(--g400)">maria@birdlin.io · Ext. 101</div></div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono)">142</td><td><span class="pill pg">94 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:41</td><td><span class="pill pi">4.8 / 5</span></td><td><span class="pill pg">On shift</span></td></tr>
+              <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff">JC</div><div><div style="font-weight:600">Jay Chen</div><div style="font-size:11px;color:var(--g400)">jay@birdlin.io · Ext. 102</div></div></div></td><td style="font-size:12px;color:var(--g500)">6am–2pm</td><td style="font-family:var(--mono)">98</td><td><span class="pill pg">61 booked</span></td><td style="font-family:var(--mono);font-size:12px">2:29</td><td><span class="pill pi">4.6 / 5</span></td><td><span class="pill pg">On shift</span></td></tr>
+              <tr><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff">RA</div><div><div style="font-weight:600">Rica Alonzo</div><div style="font-size:11px;color:var(--g400)">rica@birdlin.io · Ext. 103</div></div></div></td><td style="font-size:12px;color:var(--g500)">2pm–10pm</td><td style="font-family:var(--mono)">44</td><td><span class="pill pa">26 booked</span></td><td style="font-family:var(--mono);font-size:12px">3:02</td><td><span class="pill pa">4.1 / 5</span></td><td><span class="pill pr">Off shift</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ALL CALL LOGS -->
+      <div class="sec" id="sec-logs">
+        <div class="card">
+          <div class="ch"><span class="ct">All Call Logs</span><input class="inp" style="width:200px" placeholder="Search logs…" oninput="filterTbl('logsTbl',this)"/></div>
+          <table class="dt" id="logsTbl">
+            <thead><tr><th>Caller</th><th>Client</th><th>Agent</th><th>Time</th><th>Duration</th><th>Outcome</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cr"><div class="av" style="background:#DCFCE7;color:#16A34A">JH</div><div><div style="font-weight:500">James Hartwell</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0391</div></div></div></td><td>Mike's Plumbing</td><td style="font-size:12px">Maria R.</td><td style="font-family:var(--mono);font-size:12px">11:42 AM</td><td style="font-family:var(--mono);font-size:12px">3:12</td><td><span class="pill pg">Booked</span></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#FFF7ED;color:#D97706">LP</div><div><div style="font-weight:500">Linda Park</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0821</div></div></div></td><td>Mike's Plumbing</td><td style="font-size:12px">Maria R.</td><td style="font-family:var(--mono);font-size:12px">11:29 AM</td><td style="font-family:var(--mono);font-size:12px">1:05</td><td><span class="pill pa">Transferred</span></td></tr>
+              <tr><td><div class="cr"><div class="av" style="background:#EFF6FF;color:#2563EB">RK</div><div><div style="font-weight:500">Robert Kim</div><div style="font-size:11px;color:var(--g400);font-family:var(--mono)">+1 614-555-0209</div></div></div></td><td>Smith HVAC</td><td style="font-size:12px">Jay C.</td><td style="font-family:var(--mono);font-size:12px">11:14 AM</td><td style="font-family:var(--mono);font-size:12px">2:47</td><td><span class="pill pg">Booked</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BILLING & REVENUE -->
+      <div class="sec" id="sec-revenue">
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">Invoice History</span><button class="bout" style="font-size:12px;padding:5px 12px" onclick="toast('Downloading…')">Export CSV</button></div>
+            <table class="dt">
+              <thead><tr><th>Invoice</th><th>Period</th><th>Clients</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:12px">#INV-2026-03</td><td style="font-size:12px;color:var(--g500)">March 2026</td><td style="font-size:12px">8</td><td style="font-family:var(--mono);font-weight:700">$3,891</td><td><span class="pill pa">Pending</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Opening invoice…')">View</button></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:12px">#INV-2026-02</td><td style="font-size:12px;color:var(--g500)">February 2026</td><td style="font-size:12px">6</td><td style="font-family:var(--mono);font-weight:700">$3,293</td><td><span class="pill pg">Paid</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Opening invoice…')">View</button></td></tr>
+                <tr><td style="font-family:var(--mono);font-size:12px">#INV-2026-01</td><td style="font-size:12px;color:var(--g500)">January 2026</td><td style="font-size:12px">5</td><td style="font-family:var(--mono);font-weight:700">$2,047</td><td><span class="pill pg">Paid</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Opening invoice…')">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card cb">
+            <div style="font-size:12px;font-weight:700;color:var(--g500);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px">March 2026 Breakdown</div>
+            <div class="bp" style="padding:14px;margin-bottom:12px"><div class="bpn">Total MRR</div><div class="bpp">$3,891</div><div style="margin-top:6px;font-size:11px;opacity:.7">+18% month-over-month</div></div>
+            <div class="sr"><span class="srlab">Starter plans (4 × $299)</span><span class="srval">$1,196</span></div>
+            <div class="sr"><span class="srlab">Growth plans (2 × $549)</span><span class="srval">$1,098</span></div>
+            <div class="sr"><span class="srlab">Overage charges</span><span class="srval">$247</span></div>
+            <div class="sr"><span class="srlab">Setup fees (1 new client)</span><span class="srval">$350</span></div>
+            <div class="sr"><span class="srlab">Stripe processing (2.9%)</span><span class="srval" style="color:var(--red)">-$113</span></div>
+            <div class="sr" style="border-top:2px solid var(--g200);padding-top:10px;margin-top:4px"><span class="srlab" style="font-weight:700;color:var(--g800)">Net Revenue</span><span class="srval" style="color:var(--ind)">$3,778</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QA & SCORING -->
+      <div class="sec" id="sec-qa">
+        <div class="card">
+          <div class="ch"><span class="ct">QA Reviews Needed</span></div>
+          <table class="dt">
+            <thead><tr><th>Call</th><th>Agent</th><th>Client</th><th>Duration</th><th>Issue Flag</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:var(--mono);font-size:12px">Mar 25 · 09:14 AM</td><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff;width:24px;height:24px;font-size:9px">RA</div><span>Rica A.</span></div></td><td>Clean &amp; Shine</td><td style="font-family:var(--mono);font-size:12px">5:18</td><td><span class="pill pa">Long handle time</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Opening call recording…')">Review</button></td></tr>
+              <tr><td style="font-family:var(--mono);font-size:12px">Mar 24 · 14:52 PM</td><td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff;width:24px;height:24px;font-size:9px">RA</div><span>Rica A.</span></div></td><td>Capitol Roofing</td><td style="font-family:var(--mono);font-size:12px">4:45</td><td><span class="pill pr">No booking captured</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Opening call recording…')">Review</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="sec" id="sec-reports">
+        <div class="grid-2">
+          <div class="card cb"><div class="ch"><span class="ct">Monthly Summary Report</span></div><div class="cb"><p style="font-size:13px;color:var(--g600);line-height:1.7">Generate a full platform report for March 2026 including calls, bookings, revenue, agent performance, and client usage.</p><br/><button class="bpri" onclick="toast('Generating PDF report…')">Generate PDF Report</button></div></div>
+          <div class="card cb"><div class="ch"><span class="ct">Client Usage Report</span></div><div class="cb"><p style="font-size:13px;color:var(--g600);line-height:1.7">Per-client breakdown of calls, bookings, overages, and billing for the current cycle.</p><br/><button class="bpri" onclick="toast('Generating usage report…')">Export Client Report</button></div></div>
+        </div>
+      </div>
+
+      <!-- INTEGRATIONS -->
+      <div class="sec" id="sec-integrations">
+        <div class="grid-2-tight">
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">📞</div><div><div style="font-weight:700;font-size:14px">Twilio</div><div style="font-size:12px;color:var(--g400)">Call routing & recording</div></div><span class="pill pg" style="margin-left:auto">Connected</span></div><div style="font-size:12px;color:var(--g500)">Account: AC3f4e8b · Region: us-east-1 · 8 numbers active</div></div>
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">💳</div><div><div style="font-weight:700;font-size:14px">Stripe</div><div style="font-size:12px;color:var(--g400)">Billing & subscriptions</div></div><span class="pill pg" style="margin-left:auto">Connected</span></div><div style="font-size:12px;color:var(--g500)">Live mode · Auto-billing enabled · Webhooks active</div></div>
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">📅</div><div><div style="font-weight:700;font-size:14px">Google Calendar</div><div style="font-size:12px;color:var(--g400)">Booking sync</div></div><span class="pill pg" style="margin-left:auto">Connected</span></div><div style="font-size:12px;color:var(--g500)">6 client calendars synced · Last sync: 2 min ago</div></div>
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">📆</div><div><div style="font-weight:700;font-size:14px">Outlook Calendar</div><div style="font-size:12px;color:var(--g400)">Microsoft booking sync</div></div><span class="pill pa" style="margin-left:auto">2 pending</span></div><div style="font-size:12px;color:var(--g500)">2 clients using Outlook · Auth renewal needed</div><button class="bout" style="margin-top:10px;font-size:12px" onclick="toast('Reconnecting Outlook…')">Reconnect</button></div>
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">⚡</div><div><div style="font-weight:700;font-size:14px">Zapier / Make</div><div style="font-size:12px;color:var(--g400)">Automation workflows</div></div><span class="pill pg" style="margin-left:auto">Active</span></div><div style="font-size:12px;color:var(--g500)">3 active zaps · HubSpot, Slack, Google Sheets</div></div>
+          <div class="card cb"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:24px">🔗</div><div><div style="font-weight:700;font-size:14px">Webhooks</div><div style="font-size:12px;color:var(--g400)">Custom event delivery</div></div><span class="pill pi" style="margin-left:auto">5 endpoints</span></div><div style="font-size:12px;color:var(--g500)">booking.created · call.ended · lead.captured events</div></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="sec" id="sec-settings">
+        <div style="max-width:600px">
+          <div class="card cb" style="margin-bottom:14px">
+            <div style="font-size:13px;font-weight:700;color:var(--g800);margin-bottom:14px">Platform Settings</div>
+            <div class="fgrp"><label class="flbl">Platform Name</label><input class="inp" value="Birdlin"/></div>
+            <div class="fgrp"><label class="flbl">Support Email</label><input class="inp" type="email" value="support@birdlin.io"/></div>
+            <div class="fgrp"><label class="flbl">Default Plan</label><select class="inp"><option>Starter — $299/mo</option><option>Growth — $549/mo</option></select></div>
+            <button class="bpri" onclick="toast('Settings saved ✓')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page -->
+  </div><!-- /mc -->
+</div><!-- /app -->
+
+<!-- Init: show first section -->
+<script>
+function appendAdminClientRow(client){
+  const table = document.querySelector('#clientsTbl tbody');
+  if(!table) return;
+  const initials = BirdlinUI.initials(client.name || 'NC');
+  const monthly = client.plan.includes('Growth') ? '$549' : '$299';
+  const row = document.createElement('tr');
+  row.innerHTML = `<td><div class="cr"><div class="av" style="background:linear-gradient(135deg,#0891B2,#4F46E5);color:#fff;font-size:10px;border-radius:8px">${initials}</div><div><div style="font-weight:600">${client.name}</div><div style="font-size:11px;color:var(--g400)">${client.city || 'Columbus, OH'} · ${client.email || '-'}</div></div></div></td><td><span class="pill ${client.plan.includes('Growth') ? 'pi' : 'pg'}">${client.plan.includes('Growth') ? 'Growth' : 'Starter'}</span></td><td style="font-family:var(--mono);font-size:12.5px">${monthly}</td><td style="font-family:var(--mono);font-size:12px">0/${client.plan.includes('Growth') ? '100' : '40'}</td><td><span class="pill pg">Active</span></td><td><button class="bout" style="font-size:11px;padding:4px 10px" onclick="toast('Viewing client…')">View</button></td>`;
+  table.prepend(row);
+  syncAdminCounts();
+}
+
+function appendAdminAgentRow(agent){
+  const table = document.querySelector('#agentsTbl tbody');
+  if(!table) return;
+  const initials = BirdlinUI.initials(agent.name || 'NA');
+  const row = document.createElement('tr');
+  row.innerHTML = `<td><div class="cr"><div class="av avc" style="background:linear-gradient(135deg,#16A34A,#0891B2);color:#fff">${initials}</div><div><div style="font-weight:600">${agent.name}</div><div style="font-size:11px;color:var(--g400)">${agent.email || '-'} · ${agent.skills || 'General'}</div></div></div></td><td style="font-size:12px;color:var(--g500)">${agent.shift || 'Flexible'}</td><td style="font-family:var(--mono)">0</td><td><span class="pill pa">0 booked</span></td><td style="font-family:var(--mono);font-size:12px">--:--</td><td><span class="pill pa">N/A</span></td><td><span class="pill pg">On shift</span></td>`;
+  table.prepend(row);
+  syncAdminCounts();
+}
+
+function syncAdminCounts(){
+  const clientCount = document.querySelectorAll('#clientsTbl tbody tr').length;
+  const agentCount = document.querySelectorAll('#agentsTbl tbody tr').length;
+  const cBadge = document.getElementById('adminClientCountBadge');
+  const aBadge = document.getElementById('adminAgentCountBadge');
+  if(cBadge) cBadge.textContent = String(clientCount);
+  if(aBadge) aBadge.textContent = String(agentCount);
+}
+
+function onboardClient(){
+  const name = (document.getElementById('adClientName')?.value || '').trim();
+  const industry = document.getElementById('adClientIndustry')?.value || 'General';
+  const email = (document.getElementById('adClientEmail')?.value || '').trim();
+  const contact = (document.getElementById('adClientContact')?.value || '').trim();
+  const city = (document.getElementById('adClientCity')?.value || '').trim();
+  const plan = document.getElementById('adClientPlan')?.value || 'Starter';
+  if(!name){
+    toast('Business name is required');
+    return;
+  }
+  const payload = {name,industry,email,contact,city,plan};
+  appendAdminClientRow(payload);
+  BirdlinStore.addAdminClient(payload);
+  BirdlinStore.addNotification({title:'New client onboarded',sub:`${name} • ${plan}`,time:'now'});
+  BirdlinUI.appendTopNotification({title:'New client onboarded',sub:`${name} • ${plan}`,time:'now'});
+  closeModal('onboardModal');
+  toast('Client onboarded and platform list updated');
+}
+
+function addAdminAgent(){
+  const name = (document.getElementById('adAgentName')?.value || '').trim();
+  const email = (document.getElementById('adAgentEmail')?.value || '').trim();
+  const shift = document.getElementById('adAgentShift')?.value || 'Flexible';
+  const skills = document.getElementById('adAgentSkills')?.value || 'General';
+  if(!name){
+    toast('Agent name is required');
+    return;
+  }
+  const payload = {name,email,shift,skills};
+  appendAdminAgentRow(payload);
+  BirdlinStore.addAdminAgent(payload);
+  BirdlinStore.addNotification({title:'Agent added',sub:`${name} • ${shift}`,time:'now'});
+  BirdlinUI.appendTopNotification({title:'Agent added',sub:`${name} • ${shift}`,time:'now'});
+  closeModal('addAgentModal');
+  toast('Agent added to roster');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sec-overview').classList.add('on');
+  const state = BirdlinStore.getState();
+  state.custom.adminClients.forEach(appendAdminClientRow);
+  state.custom.adminAgents.forEach(appendAdminAgentRow);
+  syncAdminCounts();
+});
+</script>
+</body>
+</html>

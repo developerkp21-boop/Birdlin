@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sign In — Birdlin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/birdlin.css"/>
+<style>
+body{display:flex;background:#F8F9FF;min-height:100vh}
+/* LEFT PANEL */
+.lp{width:440px;flex-shrink:0;background:linear-gradient(145deg,#4F46E5 0%,#7C3AED 50%,#6D28D9 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:48px 52px}
+.lp::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(255,255,255,.06);border-radius:50%}
+.lp::after{content:'';position:absolute;bottom:-80px;left:-40px;width:260px;height:260px;background:rgba(255,255,255,.04);border-radius:50%}
+.lp-logo{display:flex;align-items:center;gap:10px;z-index:1;position:relative}
+.lp-lm{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.lp-lm svg{width:20px;height:20px;fill:#fff}
+.lp-ln{font-size:20px;font-weight:800;color:#fff}
+.lp-main{z-index:1;position:relative}
+.lp-tag{font-size:28px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:16px}
+.lp-sub{font-size:15px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:32px}
+.feat{display:flex;flex-direction:column;gap:12px}
+.fi{display:flex;align-items:center;gap:12px}
+.fi-dot{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.fi-text{font-size:13px;color:rgba(255,255,255,.8);font-weight:500}
+.lp-foot{z-index:1;position:relative}
+.lp-quote{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;border-top:1px solid rgba(255,255,255,.15);padding-top:16px}
+/* RIGHT PANEL */
+.rp{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.rp-box{width:100%;max-width:440px}
+.rp-head{margin-bottom:32px}
+.rp-title{font-size:26px;font-weight:800;color:var(--g900);letter-spacing:-.5px;margin-bottom:6px}
+.rp-sub{font-size:14px;color:var(--g500)}
+/* ROLE SELECTOR */
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:28px}
+.role{border:1.5px solid var(--g200);border-radius:10px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .18s;background:#fff}
+.role:hover{border-color:var(--ind-m);background:var(--ind-l)}
+.role.sel{border-color:var(--ind);background:var(--ind-l)}
+.role-ic{font-size:22px;margin-bottom:6px}
+.role-label{font-size:12px;font-weight:700;color:var(--g700)}
+.role-sub{font-size:10px;color:var(--g400);margin-top:2px}
+.role.sel .role-label{color:var(--ind)}
+/* FORM */
+.fgrp{margin-bottom:16px}
+.flbl{font-size:12px;font-weight:600;color:var(--g600);margin-bottom:6px;display:block}
+.finp{width:100%;border:1.5px solid var(--g200);border-radius:9px;padding:11px 14px;font-size:14px;font-family:var(--font);outline:none;color:var(--g800);background:#fff;transition:border .15s}
+.finp:focus{border-color:var(--ind);box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:13px;color:var(--g400);padding:2px}
+.forgot{text-align:right;margin-top:-10px;margin-bottom:20px}
+.forgot a{font-size:12px;color:var(--ind);text-decoration:none;font-weight:600}
+.forgot a:hover{text-decoration:underline}
+.sbtn{width:100%;background:linear-gradient(135deg,var(--ind),var(--pur));color:#fff;border:none;border-radius:9px;padding:13px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:.2px}
+.sbtn:hover{opacity:.92;transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,70,229,.35)}
+.sbtn:active{transform:translateY(0)}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--g400);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--g200)}
+.quick-links{display:flex;flex-direction:column;gap:8px}
+.qlink{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--g200);border-radius:9px;text-decoration:none;transition:all .15s;background:#fff}
+.qlink:hover{border-color:var(--ind-m);background:var(--ind-l)}
+.qlink-left{display:flex;align-items:center;gap:10px}
+.qlink-ic{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.qlink-name{font-size:13px;font-weight:600;color:var(--g700)}
+.qlink-role{font-size:11px;color:var(--g400)}
+.qlink-arr{font-size:14px;color:var(--g400)}
+.signup{text-align:center;margin-top:24px;font-size:13px;color:var(--g500)}
+.signup a{color:var(--ind);font-weight:600;text-decoration:none}
+/* ERROR */
+.err-msg{background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--red);margin-bottom:16px;display:none}
+.err-msg.show{display:block}
+/* RESPONSIVE */
+@media(max-width:780px){
+  .lp{display:none}
+  body{background:#fff}
+}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:10px}
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="lp">
+  <div class="lp-logo">
+    <div class="lp-lm"><svg viewBox="0 0 16 16"><path d="M8 2C5.8 2 4 3.8 4 6c0 1.4.7 2.6 1.8 3.4V11h4.4V9.4C11.3 8.6 12 7.4 12 6c0-2.2-1.8-4-4-4z"/><circle cx="5.5" cy="12.5" r="1.2"/><circle cx="10.5" cy="12.5" r="1.2"/></svg></div>
+    <span class="lp-ln">Birdlin</span>
+  </div>
+  <div class="lp-main">
+    <div class="lp-tag">Your always-on<br/>receptionist team.</div>
+    <div class="lp-sub">Handle calls, capture leads, and book appointments — automatically, for any business.</div>
+    <div class="feat">
+      <div class="fi"><div class="fi-dot">📞</div><span class="fi-text">Live call handling via Twilio</span></div>
+      <div class="fi"><div class="fi-dot">📅</div><span class="fi-text">Google Calendar & Outlook booking sync</span></div>
+      <div class="fi"><div class="fi-dot">📊</div><span class="fi-text">Real-time analytics & agent performance</span></div>
+      <div class="fi"><div class="fi-dot">💳</div><span class="fi-text">Stripe billing & usage tracking</span></div>
+      <div class="fi"><div class="fi-dot">🔗</div><span class="fi-text">Zapier, HubSpot & CRM integrations</span></div>
+    </div>
+  </div>
+  <div class="lp-foot">
+    <div class="lp-quote">"Birdlin answered 94% of our calls and booked 3× more appointments than our old voicemail system."<br/><strong style="color:rgba(255,255,255,.6)">— Mike T., Mike's Plumbing Co.</strong></div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="rp">
+  <div class="rp-box">
+    <div class="rp-head">
+      <div class="rp-title">Welcome back 👋</div>
+      <div class="rp-sub">Sign in to your Birdlin account</div>
+    </div>
+
+    <!-- ROLE SELECTOR -->
+    <div class="roles">
+      <div class="role sel" id="role-agent" onclick="selectRole('agent')">
+        <div class="role-ic">🎧</div>
+        <div class="role-label">Agent</div>
+        <div class="role-sub">Receptionist</div>
+      </div>
+      <div class="role" id="role-client" onclick="selectRole('client')">
+        <div class="role-ic">🏢</div>
+        <div class="role-label">Client</div>
+        <div class="role-sub">Business owner</div>
+      </div>
+      <div class="role" id="role-admin" onclick="selectRole('admin')">
+        <div class="role-ic">⚙️</div>
+        <div class="role-label">Admin</div>
+        <div class="role-sub">Platform admin</div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div id="errMsg" class="err-msg">Incorrect email or password. Please try again.</div>
+    <div class="fgrp">
+      <label class="flbl">Email Address</label>
+      <input class="finp" type="email" id="email" placeholder="you@company.com" autocomplete="email"/>
+    </div>
+    <div class="fgrp">
+      <label class="flbl">Password</label>
+      <div class="pw-wrap">
+        <input class="finp" type="password" id="pw" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="pw-toggle" onclick="togglePw()" id="pwBtn" type="button">👁</button>
+      </div>
+    </div>
+    <div class="forgot"><a href="#">Forgot password?</a></div>
+
+    <button class="sbtn" onclick="doLogin()">Sign in to Birdlin</button>
+
+    <div class="divider">or jump directly to</div>
+
+    <div class="quick-links">
+      <a class="qlink" href="agent_dashboard.html">
+        <div class="qlink-left">
+          <div class="qlink-ic" style="background:#EEF2FF">🎧</div>
+          <div><div class="qlink-name">Agent Dashboard</div><div class="qlink-role">Answer calls · Log leads · Book appointments</div></div>
+        </div>
+        <span class="qlink-arr">→</span>
+      </a>
+      <a class="qlink" href="client_dashboard.html">
+        <div class="qlink-left">
+          <div class="qlink-ic" style="background:#DCFCE7">🏢</div>
+          <div><div class="qlink-name">Client Portal</div><div class="qlink-role">View calls · Leads · Bookings · Analytics</div></div>
+        </div>
+        <span class="qlink-arr">→</span>
+      </a>
+      <a class="qlink" href="admin_dashboard.html">
+        <div class="qlink-left">
+          <div class="qlink-ic" style="background:#F5F3FF">⚙️</div>
+          <div><div class="qlink-name">Admin Panel</div><div class="qlink-role">Manage clients · Agents · Billing · Platform</div></div>
+        </div>
+        <span class="qlink-arr">→</span>
+      </a>
+    </div>
+
+    <div class="signup">Don't have an account? <a href="#">Request access →</a></div>
+  </div>
+</div>
+
+<script>
+let role='agent';
+const redirects={agent:'agent_dashboard.html',client:'client_dashboard.html',admin:'admin_dashboard.html'};
+function selectRole(r){
+  role=r;
+  document.querySelectorAll('.role').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('role-'+r).classList.add('sel');
+}
+function doLogin(){
+  const email=document.getElementById('email').value.trim();
+  const pw=document.getElementById('pw').value;
+  const err=document.getElementById('errMsg');
+  if(!email||!pw){err.textContent='Please enter your email and password.';err.classList.add('show');return;}
+  err.classList.remove('show');
+  // Demo: any credentials work — route to selected dashboard
+  const btn=document.querySelector('.sbtn');
+  btn.textContent='Signing in…';btn.disabled=true;
+  setTimeout(()=>window.location.href=redirects[role],900);
+}
+function togglePw(){
+  const inp=document.getElementById('pw');
+  const btn=document.getElementById('pwBtn');
+  if(inp.type==='password'){inp.type='text';btn.textContent='🙈';}
+  else{inp.type='password';btn.textContent='👁';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
